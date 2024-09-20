@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://PVX-COMMUNITY.github.io/admin-dashboard",
+  "homepage": "https://pvx-community.github.io/admin-dashboard",
   "scripts": {
     "dev": "vite",
     "deploy": "gh-pages -d build",
