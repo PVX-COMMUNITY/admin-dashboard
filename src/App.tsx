@@ -12,7 +12,7 @@ import MembersPage from "@/components/pages/MembersPage";
 import BirthdaysPage from "@/components/pages/BirthdaysPage";
 import DonationsPage from "@/components/pages/DonationsPage";
 import DashboardPage from "./components/pages/DashboardPage";
-
+import ProfilePage from "./components/pages/ProfilePage";
 export interface Routes {
   name: string;
   path: string;
@@ -51,6 +51,12 @@ function App() {
       path: "/dashboard/donations",
       element: <DonationsPage />,
       icon: <MdOutlineCurrencyRupee size={"30px"} />,
+    },
+    {
+      name: "Profile",
+      path: "/dashboard/profile",
+      element: <ProfilePage />,
+      icon: <FaUser size={"22px"} />,
     },
   ];
 
