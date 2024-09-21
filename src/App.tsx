@@ -70,18 +70,23 @@ function App() {
     );
   }
 
-  const router = createBrowserRouter([
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <LoginPage />,
+      },
+      {
+        element: <Layout />,
+        children: routes.map((route) => {
+          return { path: route.path, element: route.element };
+        }),
+      },
+    ],
     {
-      path: "/",
-      element: <LoginPage />,
-    },
-    {
-      element: <Layout />,
-      children: routes.map((route) => {
-        return { path: route.path, element: route.element };
-      }),
-    },
-  ]);
+      basename: "/admin-dashboard",
+    }
+  );
 
   return <RouterProvider router={router} />;
 }
