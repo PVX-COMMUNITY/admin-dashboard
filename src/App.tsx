@@ -13,7 +13,7 @@ import BirthdaysPage from "@/components/pages/BirthdaysPage";
 import DonationsPage from "@/components/pages/DonationsPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import NotFoundPage from "./components/pages/NotFoundPage";
-
+import ProfilePage from "./components/pages/ProfilePage";
 export interface Routes {
   name: string;
   path: string;
@@ -63,6 +63,12 @@ function App() {
       element: <DonationsPage />,
       icon: <MdOutlineCurrencyRupee size={"30px"} />,
       showInSidebar: true,
+    },
+    {
+      name: "Profile",
+      path: "/dashboard/profile",
+      element: <ProfilePage />,
+      icon: <FaUser size={"22px"} />,
     },
     {
       name: "Not Found",
