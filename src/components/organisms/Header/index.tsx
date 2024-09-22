@@ -1,12 +1,20 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IoIosLogOut } from "react-icons/io";
+import { FiMenu } from "react-icons/fi";
 
-export default function Header() {
+
+export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
   const user = "Full Name";
 
   return (
     <div className="bg-primary px-8 py-4 w-full flex justify-between items-center">
+       <FiMenu
+        className="block md:hidden cursor-pointer"
+        size={30}
+        onClick={toggleMenu}
+      />
       <div>
+     
         <p className="text-3xl">PVX</p>
       </div>
       <div className="flex justify-center items-center">
