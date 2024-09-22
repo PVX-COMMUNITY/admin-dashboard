@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { MdOutlineCurrencyRupee, MdGroup, MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
@@ -21,9 +21,13 @@ export interface Routes {
   icon?: ReactNode;
   showInSidebar?: boolean;
 }
-//remove this comment later , i am putting for some reason
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   const routes: Routes[] = [
     {
       name: "Dashboard",
@@ -72,9 +76,11 @@ function App() {
     return (
       <>
         <div className="flex min-h-screen">
-          <Sidebar routes={routes.filter(route => route.showInSidebar)} />
+          <div className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
+            <Sidebar routes={routes.filter(route => route.showInSidebar)} />
+          </div>
           <div className="flex flex-col w-full">
-            <Header />
+            <Header toggleMenu={toggleMenu} />
             <div className="p-8 bg-primary h-full">
               <Outlet />
             </div>
