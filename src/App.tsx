@@ -14,7 +14,7 @@ import DonationsPage from "@/components/pages/DonationsPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import NotFoundPage from "./components/pages/NotFoundPge";
 
-export interface Route {
+export interface Routes {
   name: string;
   path: string;
   element: JSX.Element;
@@ -24,7 +24,7 @@ export interface Route {
 //remove this comment later , i am putting for some reason
 
 function App() {
-  const routes: Route[] = [
+  const routes: Routes[] = [
     {
       name: "Dashboard",
       path: "/dashboard",
