@@ -21,6 +21,7 @@ export interface Route {
   icon?: ReactNode;
   showInSidebar?: boolean;
 }
+//remove this comment later , i am putting for some reason
 
 function App() {
   const routes: Route[] = [
