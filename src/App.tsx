@@ -76,7 +76,11 @@ function App() {
     return (
       <>
         <div className="flex min-h-screen">
-          <div className={`${isMenuOpen ? "block" : "hidden"} md:block`}>
+          <div
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } md:block bg-secondary`}
+          >
             <Sidebar routes={routes.filter(route => route.showInSidebar)} />
           </div>
           <div className="flex flex-col w-full">
