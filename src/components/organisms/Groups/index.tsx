@@ -1,6 +1,7 @@
 import { DialogEdit } from "@/components/organisms/Groups/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useState } from "react";
+import { DialogDelete } from "@/components/molecules/DialogDelete";
 
 export interface IGroups {
   id: string;
@@ -9,8 +10,11 @@ export interface IGroups {
 }
 
 export default function Groups() {
+
   const [openEdit, setOpenEdit] = useState(false);
   const [editData, setEditData] = useState<IGroups | null>(null);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [deleteData, setDeleteData] = useState<{ id: string, oragnism: string, name: string | undefined } | null>(null);
 
   const columnsName = [
     {
@@ -21,7 +25,7 @@ export default function Groups() {
     { name: "Link", mapper: "link" },
   ];
 
-  const columnsData = [
+  const [columnsData, setColumnsData] = useState([
     {
       id: "1",
       name: "COMMUNITY1",
@@ -47,7 +51,7 @@ export default function Groups() {
       name: "COMMUNITY5",
       link: "https://chat.whatsapp.com/J98k3LCByjC4GzwwxvZOBJ",
     },
-  ];
+  ]);
 
   const handleEdit = (id: string) => {
     console.log(`Edit item with ID: ${id}`);
@@ -57,19 +61,42 @@ export default function Groups() {
     if (data) setEditData(data);
   };
 
+  const handleDelete = () => {
+    // TODO : handle actual deletion from db here
+    setColumnsData(columnsData.filter(group => group.id !== deleteData?.id))
+    setOpenDelete(false)
+  }
+
+  const handleDeletePopup = (id: string) => {
+    console.log(`Delete item with ID: ${id}`);
+    setDeleteData({ id: id, oragnism: "Group", name: columnsData.filter(group => group.id === id).at(0)?.name });
+    setOpenDelete(true)
+  };
+
   return (
     <div>
       <TableCustom
         columnsName={columnsName}
         columnsData={columnsData}
         onEdit={handleEdit}
+        onDelete={handleDeletePopup}
         showEdit={true}
+        showDelete={true}
       />
       {openEdit && (
         <DialogEdit
           open={openEdit}
           setOpen={() => setOpenEdit(false)}
           editData={editData}
+        />
+      )}
+      {openDelete && (
+        <DialogDelete
+          open={openDelete}
+          setOpen={() => setOpenDelete(false)}
+          deleteData={deleteData}
+          onDelete={handleDelete}
+          onCancel={() => { setOpenDelete(false) }}
         />
       )}
     </div>

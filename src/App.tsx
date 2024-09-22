@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { MdOutlineCurrencyRupee, MdGroup, MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
@@ -21,6 +21,10 @@ export interface Routes {
 }
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const routes: Routes[] = [
     {
       name: "Dashboard",
@@ -58,9 +62,15 @@ function App() {
     return (
       <>
         <div className="flex min-h-screen">
-          <Sidebar routes={routes} />
+        <div
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        } md:block bg-secondary `}
+      >
+        <Sidebar routes={routes} />
+      </div>
           <div className="flex flex-col w-full">
-            <Header />
+          <Header toggleMenu={toggleMenu} />
             <div className="p-8 bg-primary h-full">
               <Outlet />
             </div>
