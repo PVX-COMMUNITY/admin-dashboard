@@ -1,0 +1,80 @@
+name: github pages
+
+on:
+  push:
+    branches:
+      - dev # deploy dev. If your branch is `master`, you'll have to replace that throughout this file.
+  pull_request: # This will publish a site preview on every pull request, and also run the build command to test if the site is broken.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    env:
+      PR_PATH: pull/${{github.event.number}}
+    steps:
+      - name: Comment on PR
+        uses: hasura/comment-progress@v2.2.0
+        if: github.ref != 'refs/heads/dev'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          number: ${{ github.event.number }}
+          id: deploy-preview
+          message: "Starting deployment of preview ⏳..."
+
+      - name: Set domain
+        run: echo "DOMAIN=${{ github.actor }}.github.io" >> $GITHUB_ENV
+
+      - name: Checkout website repo
+        uses: actions/checkout@v2
+        with:
+          submodules: true # fetch the theme
+          # you need to set this as an environment env if your repo or any submodules (e.g the theme) is private:
+          # token: ${{ secrets.PRIVATE_REPO_TOKEN }}
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.88.1" # TODO set this to your hugo version
+
+      - name: Set production base URL
+        run: echo "BASE_URL=https://${{ env.DOMAIN }}/${{ github.event.repository.name }}/" >> $GITHUB_ENV
+
+      - name: Build website
+        run: hugo --baseURL "${{ env.BASE_URL }}"
+        env:
+          HUGO_ENV: production
+
+      - name: Deploy if this is the `dev` branch
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/dev'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+
+      - name: Set base URL for preview if PR
+        if: github.ref != 'refs/heads/dev'
+        run: echo "BASE_URL=https://${{ env.DOMAIN }}/${{ github.event.repository.name }}/${{ env.PR_PATH}}/" >> $GITHUB_ENV
+
+      - name: Build PR preview website
+        if: github.ref != 'refs/heads/dev'
+        run: hugo --baseURL "${{ env.BASE_URL }}"
+        env:
+          HUGO_ENV: staging
+
+      - name: Deploy to PR preview
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref != 'refs/heads/dev'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+
+      - name: Update comment
+        uses: hasura/comment-progress@v2.2.0
+        if: github.ref != 'refs/heads/dev'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          number: ${{ github.event.number }}
+          id: deploy-preview
+          message: "A preview of ${{ github.event.after }} is uploaded and can be seen here:\n\n ✨ ${{ env.BASE_URL }} ✨\n\nChanges may take a few minutes to propagate. Since this is a preview of production, content with `draft: true` will not be rendered. The source is here: https://github.com/${{ github.repository }}/tree/gh-pages/${{ env.PR_PATH }}/"
