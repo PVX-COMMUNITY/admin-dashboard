@@ -2,6 +2,11 @@
 
 Admin dashboard for [PVX Website](https://pvxcommunity.com) !
 
+## Preview
+
+- Dev = https://dev--pvx-admin-dashboard.netlify.app/
+- Prod = https://pvx-admin-dashboard.netlify.app/
+
 ## Tech Stack
 
 - Vite + React + TypeScript
@@ -33,4 +38,3 @@ The project uses a three-branch strategy for development:
 3. Fork the repo and untick the 'Copy the prod branch only'.
 4. Make the branch from `dev` for your changes.
 5. Send the PR for review and set the target branch to `dev`.
-
