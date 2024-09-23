@@ -12,12 +12,15 @@ import MembersPage from "@/components/pages/MembersPage";
 import BirthdaysPage from "@/components/pages/BirthdaysPage";
 import DonationsPage from "@/components/pages/DonationsPage";
 import DashboardPage from "./components/pages/DashboardPage";
+import NotFoundPage from "./components/pages/NotFoundPage";
 
 export interface Routes {
   name: string;
   path: string;
   element: JSX.Element;
   icon?: ReactNode;
+  showInSidebar?: boolean;
+
 }
 
 function App() {
@@ -31,30 +34,41 @@ function App() {
       path: "/dashboard",
       element: <DashboardPage />,
       icon: <MdDashboard size={"30px"} />,
+      showInSidebar: true,
     },
     {
       name: "Members",
       path: "/dashboard/members",
       element: <MembersPage />,
       icon: <FaUser size={"22px"} />,
+      showInSidebar: true,
     },
     {
       name: "Groups",
       path: "/dashboard/groups",
       element: <GroupsPage />,
       icon: <MdGroup size={"30px"} />,
+      showInSidebar: true,
     },
     {
       name: "Birthdays",
       path: "/dashboard/birthdays",
       element: <BirthdaysPage />,
       icon: <LiaBirthdayCakeSolid size={"30px"} />,
+      showInSidebar: true,
     },
     {
       name: "Donations",
       path: "/dashboard/donations",
       element: <DonationsPage />,
       icon: <MdOutlineCurrencyRupee size={"30px"} />,
+      showInSidebar: true,
+    },
+    {
+      name: "Not Found",
+      path: "*",
+      element: <NotFoundPage />,
+      showInSidebar: false,
     },
   ];
 
@@ -67,7 +81,7 @@ function App() {
           isMenuOpen ? "block" : "hidden"
         } md:block bg-secondary `}
       >
-        <Sidebar routes={routes} />
+        <Sidebar routes={routes.filter(route => route.showInSidebar)} />
       </div>
           <div className="flex flex-col w-full">
           <Header toggleMenu={toggleMenu} />
