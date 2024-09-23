@@ -20,7 +20,6 @@ export interface Routes {
   element: JSX.Element;
   icon?: ReactNode;
   showInSidebar?: boolean;
-
 }
 
 function App() {
@@ -76,15 +75,15 @@ function App() {
     return (
       <>
         <div className="flex min-h-screen">
-        <div
-        className={`${
-          isMenuOpen ? "block" : "hidden"
-        } md:block bg-secondary `}
-      >
-        <Sidebar routes={routes.filter(route => route.showInSidebar)} />
-      </div>
+          <div
+            className={`${
+              isMenuOpen ? "block" : "hidden"
+            } md:block bg-secondary `}
+          >
+            <Sidebar routes={routes.filter((route) => route.showInSidebar)} />
+          </div>
           <div className="flex flex-col w-full">
-          <Header toggleMenu={toggleMenu} />
+            <Header toggleMenu={toggleMenu} />
             <div className="p-8 bg-primary h-full">
               <Outlet />
             </div>
@@ -94,23 +93,18 @@ function App() {
     );
   }
 
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/",
-        element: <LoginPage />,
-      },
-      {
-        element: <Layout />,
-        children: routes.map((route) => {
-          return { path: route.path, element: route.element };
-        }),
-      },
-    ],
+  const router = createBrowserRouter([
     {
-      basename: "/admin-dashboard",
-    }
-  );
+      path: "/",
+      element: <LoginPage />,
+    },
+    {
+      element: <Layout />,
+      children: routes.map((route) => {
+        return { path: route.path, element: route.element };
+      }),
+    },
+  ]);
 
   return <RouterProvider router={router} />;
 }
