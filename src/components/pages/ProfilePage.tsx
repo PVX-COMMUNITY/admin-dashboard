@@ -58,7 +58,7 @@ export default function ProfilePage() {
                 <p className="text-xl text-white opacity-75">{user.role}</p>
               </div>
             </div>
-            <Button onClick={handleEdit} variant="secondary" className="flex items-center space-x-2">
+            <Button onClick={isEditing ? handleSave : handleEdit} variant="secondary" className="flex items-center space-x-2">
               {isEditing ? <FaSave className="w-4 h-4" /> : <FaEdit className="w-4 h-4" />}
               <span>{isEditing ? "Save" : "Edit Profile"}</span>
             </Button>
