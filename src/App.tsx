@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { MdOutlineCurrencyRupee, MdGroup, MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
-
+import ProfilePage from "./components/pages/ProfilePage";
 import Header from "@/components/organisms/Header";
 import Sidebar from "@/components/organisms/Sidebar";
 import LoginPage from "@/components/pages/LoginPage";
@@ -68,6 +68,13 @@ function App() {
       path: "*",
       element: <NotFoundPage />,
       showInSidebar: false,
+    },
+    {
+      name: "Profile",
+      path: "/dashboard/profile",
+      element: <ProfilePage />,
+      icon: <FaUser size={"22px"} />,
+      showInSidebar:true
     },
   ];
 
