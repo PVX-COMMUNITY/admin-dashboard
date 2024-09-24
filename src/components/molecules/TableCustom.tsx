@@ -24,7 +24,7 @@ interface Props {
     mapper: string;
   }[];
   columnsData: {
-    id: string;
+    uuid: string;
     [key: string]: string | number | boolean;
   }[];
   onEdit?: (id: string) => void;
@@ -51,10 +51,10 @@ export function TableCustom(props: Props) {
       <TableBody>
         {columnsData.map((columnData, columnIndex) => (
           <TableRow key={columnIndex} className="border-border-color">
-            {Object.keys(columnData).map((column, index) => {
+            {columnsName.map((column, index) => {
               return (
                 <TableCell className="font-medium" key={index}>
-                  {columnsData[columnIndex][column]}
+                  {columnsData[columnIndex][column.mapper]}
                 </TableCell>
               );
             })}
@@ -62,7 +62,7 @@ export function TableCustom(props: Props) {
               <TableCell className="text-right">
                 {showEdit && onEdit && (
                   <Button
-                    onClick={() => onEdit(columnData.id)}
+                    onClick={() => onEdit(columnData.uuid)}
                     className="ml-6"
                   >
                     Edit
@@ -70,7 +70,7 @@ export function TableCustom(props: Props) {
                 )}
                 {showDelete && onDelete && (
                   <Button
-                    onClick={() => onDelete(columnData.id)}
+                    onClick={() => onDelete(columnData.uuid)}
                     className="ml-6"
                   >
                     Delete

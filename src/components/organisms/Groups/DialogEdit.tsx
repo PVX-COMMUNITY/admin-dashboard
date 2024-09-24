@@ -33,7 +33,7 @@ export function DialogEdit(props: Props) {
   const form = useForm<z.infer<typeof groupFormSchema>>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: {
-      name: editData?.name || "",
+      name: editData?.gname || "",
       link: editData?.link || "",
     },
   });
@@ -47,7 +47,7 @@ export function DialogEdit(props: Props) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Group</DialogTitle>
-          <DialogDescription>Id: {editData?.id}</DialogDescription>
+          <DialogDescription>Id: {editData?.uuid}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

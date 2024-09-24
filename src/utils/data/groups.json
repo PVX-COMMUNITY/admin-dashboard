@@ -1,128 +1,127 @@
-
 [
-    {
-        "groupName": "PVX Programmers",
-        "url": "random.com",
-        "UUID": "f7c72e85-4db5-4b08-91e7-0c0e5b0558d1"
-    },
-    {
-        "groupName": "Alpha Coders",
-        "url": "alphacoders.com",
-        "UUID": "1a9bcbf4-3e3e-4b8d-a05f-71dcd5d9083e"
-    },
-    {
-        "groupName": "Beta Builders",
-        "url": "betabuilders.org",
-        "UUID": "2b6e4079-5cc0-41e3-b0a4-4a7c299b01c8"
-    },
-    {
-        "groupName": "Gamma Geeks",
-        "url": "gammageeks.net",
-        "UUID": "e43b65a4-1e73-4293-b434-49fa826f52b7"
-    },
-    {
-        "groupName": "Delta Developers",
-        "url": "deltadevelopers.com",
-        "UUID": "7f3497eb-3b1b-4e72-92de-5f1c3b2d0bc9"
-    },
-    {
-        "groupName": "Epsilon Engineers",
-        "url": "epsilonengineers.org",
-        "UUID": "4c539bdf-9cfc-4c41-bf81-1b8f4e2e1a9f"
-    },
-    {
-        "groupName": "Zeta Programmers",
-        "url": "zetaprogrammers.net",
-        "UUID": "1c123c91-9149-49e6-9ff5-e71b9f2cbb9e"
-    },
-    {
-        "groupName": "Eta Enthusiasts",
-        "url": "etaenthusiasts.com",
-        "UUID": "c1a1e417-2790-4896-8f47-77c345c541c5"
-    },
-    {
-        "groupName": "Theta Techies",
-        "url": "thetechies.org",
-        "UUID": "aa83d7e2-4a75-4e5e-9b6b-8c9e29f482be"
-    },
-    {
-        "groupName": "Iota Innovators",
-        "url": "iotainnovators.com",
-        "UUID": "b4d8b1a3-6a45-4f58-bc0b-d86c9f657be6"
-    },
-    {
-        "groupName": "Kappa Coders",
-        "url": "kappacoders.org",
-        "UUID": "62e1a7e9-9b67-4a15-8d05-19b9f58a9f1c"
-    },
-    {
-        "groupName": "Lambda Leaders",
-        "url": "lambdaleaders.net",
-        "UUID": "8fbc4f34-9583-47e9-b9ec-9c40c0e800be"
-    },
-    {
-        "groupName": "Mu Masters",
-        "url": "mumasters.com",
-        "UUID": "df3c4f1a-e68a-4d38-8768-43b9bc5d9b98"
-    },
-    {
-        "groupName": "Nu Networkers",
-        "url": "nunetworkers.org",
-        "UUID": "44a3c2a1-2e43-4f92-a76d-79c579637d5e"
-    },
-    {
-        "groupName": "Xi Xperts",
-        "url": "xixperts.com",
-        "UUID": "e191ca9f-c3e4-4b8b-86ef-bcc05f70024e"
-    },
-    {
-        "groupName": "Omicron Operators",
-        "url": "omicronoperators.net",
-        "UUID": "6a3beeb9-4318-4620-b9d6-785ef82b6c69"
-    },
-    {
-        "groupName": "Pi Programmers",
-        "url": "piprogrammers.org",
-        "UUID": "b6b2446c-574f-4018-9128-fd2455ef2b93"
-    },
-    {
-        "groupName": "Rho Researchers",
-        "url": "rhoresearchers.com",
-        "UUID": "9a8e6d8c-4958-4b20-8056-1e213e650a67"
-    },
-    {
-        "groupName": "Sigma Scholars",
-        "url": "sigmascholars.org",
-        "UUID": "a69c9b0c-7e03-49c5-8321-18b8c9a3c84a"
-    },
-    {
-        "groupName": "Tau Technicians",
-        "url": "tautechnicians.net",
-        "UUID": "bca4ec5a-f826-41ff-9e8e-cdfb354a3567"
-    },
-    {
-        "groupName": "Upsilon Users",
-        "url": "upsilonusers.com",
-        "UUID": "0e7dce48-3b6d-40d5-b69d-90874e9e0d23"
-    },
-    {
-        "groupName": "Phi Pioneers",
-        "url": "phipioneers.org",
-        "UUID": "a618c52d-491b-4c0f-b7ab-50f8eeb25a7c"
-    },
-    {
-        "groupName": "Chi Champions",
-        "url": "chichampions.net",
-        "UUID": "c76c8d44-f9c4-404f-b3b0-cf27be9d4970"
-    },
-    {
-        "groupName": "Psi Programmers",
-        "url": "psiprogrammers.com",
-        "UUID": "d88c47f3-b444-42c9-8c68-1f1f4dbf0d9e"
-    },
-    {
-        "groupName": "Omega Operators",
-        "url": "omegaoperators.org",
-        "UUID": "ad87a4c1-ef58-4b8c-8e4b-bded45b9cda6"
-    }
+  {
+    "gname": "PVX Programmers",
+    "link": "random.com",
+    "uuid": "f7c72e85-4db5-4b08-91e7-0c0e5b0558d1"
+  },
+  {
+    "gname": "Alpha Coders",
+    "link": "alphacoders.com",
+    "uuid": "1a9bcbf4-3e3e-4b8d-a05f-71dcd5d9083e"
+  },
+  {
+    "gname": "Beta Builders",
+    "link": "betabuilders.org",
+    "uuid": "2b6e4079-5cc0-41e3-b0a4-4a7c299b01c8"
+  },
+  {
+    "gname": "Gamma Geeks",
+    "link": "gammageeks.net",
+    "uuid": "e43b65a4-1e73-4293-b434-49fa826f52b7"
+  },
+  {
+    "gname": "Delta Developers",
+    "link": "deltadevelopers.com",
+    "uuid": "7f3497eb-3b1b-4e72-92de-5f1c3b2d0bc9"
+  },
+  {
+    "gname": "Epsilon Engineers",
+    "link": "epsilonengineers.org",
+    "uuid": "4c539bdf-9cfc-4c41-bf81-1b8f4e2e1a9f"
+  },
+  {
+    "gname": "Zeta Programmers",
+    "link": "zetaprogrammers.net",
+    "uuid": "1c123c91-9149-49e6-9ff5-e71b9f2cbb9e"
+  },
+  {
+    "gname": "Eta Enthusiasts",
+    "link": "etaenthusiasts.com",
+    "uuid": "c1a1e417-2790-4896-8f47-77c345c541c5"
+  },
+  {
+    "gname": "Theta Techies",
+    "link": "thetechies.org",
+    "uuid": "aa83d7e2-4a75-4e5e-9b6b-8c9e29f482be"
+  },
+  {
+    "gname": "Iota Innovators",
+    "link": "iotainnovators.com",
+    "uuid": "b4d8b1a3-6a45-4f58-bc0b-d86c9f657be6"
+  },
+  {
+    "gname": "Kappa Coders",
+    "link": "kappacoders.org",
+    "uuid": "62e1a7e9-9b67-4a15-8d05-19b9f58a9f1c"
+  },
+  {
+    "gname": "Lambda Leaders",
+    "link": "lambdaleaders.net",
+    "uuid": "8fbc4f34-9583-47e9-b9ec-9c40c0e800be"
+  },
+  {
+    "gname": "Mu Masters",
+    "link": "mumasters.com",
+    "uuid": "df3c4f1a-e68a-4d38-8768-43b9bc5d9b98"
+  },
+  {
+    "gname": "Nu Networkers",
+    "link": "nunetworkers.org",
+    "uuid": "44a3c2a1-2e43-4f92-a76d-79c579637d5e"
+  },
+  {
+    "gname": "Xi Xperts",
+    "link": "xixperts.com",
+    "uuid": "e191ca9f-c3e4-4b8b-86ef-bcc05f70024e"
+  },
+  {
+    "gname": "Omicron Operators",
+    "link": "omicronoperators.net",
+    "uuid": "6a3beeb9-4318-4620-b9d6-785ef82b6c69"
+  },
+  {
+    "gname": "Pi Programmers",
+    "link": "piprogrammers.org",
+    "uuid": "b6b2446c-574f-4018-9128-fd2455ef2b93"
+  },
+  {
+    "gname": "Rho Researchers",
+    "link": "rhoresearchers.com",
+    "uuid": "9a8e6d8c-4958-4b20-8056-1e213e650a67"
+  },
+  {
+    "gname": "Sigma Scholars",
+    "link": "sigmascholars.org",
+    "uuid": "a69c9b0c-7e03-49c5-8321-18b8c9a3c84a"
+  },
+  {
+    "gname": "Tau Technicians",
+    "link": "tautechnicians.net",
+    "uuid": "bca4ec5a-f826-41ff-9e8e-cdfb354a3567"
+  },
+  {
+    "gname": "Upsilon Users",
+    "link": "upsilonusers.com",
+    "uuid": "0e7dce48-3b6d-40d5-b69d-90874e9e0d23"
+  },
+  {
+    "gname": "Phi Pioneers",
+    "link": "phipioneers.org",
+    "uuid": "a618c52d-491b-4c0f-b7ab-50f8eeb25a7c"
+  },
+  {
+    "gname": "Chi Champions",
+    "link": "chichampions.net",
+    "uuid": "c76c8d44-f9c4-404f-b3b0-cf27be9d4970"
+  },
+  {
+    "gname": "Psi Programmers",
+    "link": "psiprogrammers.com",
+    "uuid": "d88c47f3-b444-42c9-8c68-1f1f4dbf0d9e"
+  },
+  {
+    "gname": "Omega Operators",
+    "link": "omegaoperators.org",
+    "uuid": "ad87a4c1-ef58-4b8c-8e4b-bded45b9cda6"
+  }
 ]
