@@ -43,6 +43,8 @@ export function TableCustom(props: Props) {
     <Table className="overflow-hidden bg-secondary tr">
       <TableHeader>
         <TableRow className="border-border-color">
+          <TableHead>Sr.</TableHead>
+
           {columnsName.map((columnName, index) => (
             <TableHead key={index}>{columnName.name}</TableHead>
           ))}
@@ -51,6 +53,7 @@ export function TableCustom(props: Props) {
       <TableBody>
         {columnsData.map((columnData, columnIndex) => (
           <TableRow key={columnIndex} className="border-border-color">
+            <TableCell className="font-medium">{columnIndex + 1}</TableCell>
             {columnsName.map((column, index) => {
               return (
                 <TableCell className="font-medium" key={index}>

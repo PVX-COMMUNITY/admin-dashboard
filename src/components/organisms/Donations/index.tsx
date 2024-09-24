@@ -19,10 +19,6 @@ export default function Donations() {
   } | null>(null);
 
   const columnsName = [
-    {
-      name: "ID",
-      mapper: "uuid",
-    },
     { name: "Username", mapper: "username" },
     { name: "Number", mapper: "number" },
     { name: "Donation", mapper: "donation" },

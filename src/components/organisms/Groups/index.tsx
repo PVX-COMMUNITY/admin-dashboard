@@ -21,10 +21,6 @@ export default function Groups() {
   } | null>(null);
 
   const columnsName = [
-    {
-      name: "ID",
-      mapper: "uuid",
-    },
     { name: "Name", mapper: "gname" },
     { name: "Link", mapper: "link" },
   ];

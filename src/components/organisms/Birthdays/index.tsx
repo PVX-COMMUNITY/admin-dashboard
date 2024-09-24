@@ -22,10 +22,6 @@ export default function Birthdays() {
   } | null>(null);
 
   const columnsName = [
-    {
-      name: "ID",
-      mapper: "uuid",
-    },
     { name: "Name", mapper: "name" },
     { name: "Username", mapper: "username" },
     { name: "Day", mapper: "day" },
