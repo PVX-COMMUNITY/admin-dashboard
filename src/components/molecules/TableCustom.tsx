@@ -37,13 +37,14 @@ export function TableCustom(props: Props) {
   const { columnsData, columnsName, onEdit, onDelete, showEdit, showDelete } =
     props;
 
-  const totalColumns = columnsName.length + (showEdit || showDelete ? 1 : 0);
+  const totalColumns =
+    columnsName.length + 1 + (showEdit || showDelete ? 1 : 0); // +1 because of sno
 
   return (
     <Table className="overflow-hidden bg-secondary tr">
       <TableHeader>
         <TableRow className="border-border-color">
-          <TableHead>Sr.</TableHead>
+          <TableHead>SNo</TableHead>
 
           {columnsName.map((columnName, index) => (
             <TableHead key={index}>{columnName.name}</TableHead>

@@ -3,7 +3,6 @@ import { IoIosLogOut } from "react-icons/io";
 import { FiMenu } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-
 export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
   const user = {
     name: "Full Name",
@@ -17,8 +16,8 @@ export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
   };
 
   return (
-    <div className="bg-primary px-8 py-4 w-full flex justify-between items-center">
-       <FiMenu
+    <div className="bg-primary sm:px-8 px-4 py-4 w-full flex justify-between items-center">
+      <FiMenu
         className="block md:hidden cursor-pointer"
         size={30}
         onClick={toggleMenu}

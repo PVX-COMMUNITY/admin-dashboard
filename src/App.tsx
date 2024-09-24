@@ -91,7 +91,7 @@ function App() {
           </div>
           <div className="flex flex-col w-full">
             <Header toggleMenu={toggleMenu} />
-            <div className="p-8 bg-primary h-full">
+            <div className="sm:p-8 p-4 bg-primary h-full">
               <Outlet />
             </div>
           </div>
