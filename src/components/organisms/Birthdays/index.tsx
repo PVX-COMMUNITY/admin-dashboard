@@ -1,7 +1,12 @@
 import { DialogDelete } from "@/components/molecules/DialogDelete";
+import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useState } from "react";
 import birthdaysData from "@/utils/data/birthdays.json";
+import { birthdayFormSchema } from "@/components/organisms/Birthdays/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export interface IBirthdays {
   uuid: string;
@@ -11,9 +16,12 @@ export interface IBirthdays {
   month: number;
   year: number;
   place: string;
+  number: string;
+  [key: string]: string | number;
 }
 
 export default function Birthdays() {
+  const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
@@ -28,14 +36,43 @@ export default function Birthdays() {
     { name: "Month", mapper: "month" },
     { name: "Year", mapper: "year" },
     { name: "Place", mapper: "place" },
+    { name: "Number", mapper: "number" },
   ];
 
-  const [columnsData, setColumnsData] = useState(birthdaysData);
+  const [columnsData, setColumnsData] = useState<IBirthdays[]>(birthdaysData);
+
+  const form = useForm<z.infer<typeof birthdayFormSchema>>({
+    resolver: zodResolver(birthdayFormSchema),
+    defaultValues: {
+      uuid: "",
+      username: "",
+      day: 0,
+      month: 0,
+      year: 0,
+      place: "",
+      number: "",
+    },
+  });
 
   const handleEdit = (id: string) => {
     console.log(`Edit item with ID: ${id}`);
+    setOpenEdit(true);
+
+    const data = columnsData.find((column) => column.uuid === id);
+    if (data) {
+      form.setValue("uuid", data.uuid);
+      form.setValue("username", data.username);
+      form.setValue("day", data.day);
+      form.setValue("month", data.month);
+      form.setValue("year", data.year);
+      form.setValue("place", data.place);
+      form.setValue("number", data.number);
+    }
   };
 
+  const handleEditSubmit = (values: z.infer<typeof birthdayFormSchema>) => {
+    console.log("Submit", values);
+  };
   const handleDeletePopup = (id: string) => {
     console.log(`Delete item with ID: ${id}`);
     setDeleteData({
@@ -64,6 +101,15 @@ export default function Birthdays() {
         showEdit={true}
         showDelete={true}
       />
+      {openEdit && (
+        <DialogEdit<z.infer<typeof birthdayFormSchema>>
+          open={openEdit}
+          setOpen={() => setOpenEdit(false)}
+          oragnism={"Group"}
+          form={form}
+          onSubmit={handleEditSubmit}
+        />
+      )}
       {openDelete && (
         <DialogDelete
           open={openDelete}

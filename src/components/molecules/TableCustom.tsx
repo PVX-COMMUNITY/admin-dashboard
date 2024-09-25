@@ -58,7 +58,7 @@ export function TableCustom(props: Props) {
             {columnsName.map((column, index) => {
               return (
                 <TableCell className="font-medium" key={index}>
-                  {columnsData[columnIndex][column.mapper]}
+                  {columnData[column.mapper]}
                 </TableCell>
               );
             })}

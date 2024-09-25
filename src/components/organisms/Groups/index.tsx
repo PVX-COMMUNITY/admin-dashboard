@@ -1,18 +1,22 @@
-import { DialogEdit } from "@/components/organisms/Groups/DialogEdit";
+import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useState } from "react";
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import groupsData from "@/utils/data/groups.json";
+import { groupFormSchema } from "@/components/organisms/Groups/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 export interface IGroups {
   uuid: string;
   gname: string;
   link: string;
+  [key: string]: string;
 }
 
 export default function Groups() {
   const [openEdit, setOpenEdit] = useState(false);
-  const [editData, setEditData] = useState<IGroups | null>(null);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
@@ -25,14 +29,31 @@ export default function Groups() {
     { name: "Link", mapper: "link" },
   ];
 
-  const [columnsData, setColumnsData] = useState(groupsData);
+  const [columnsData, setColumnsData] = useState<IGroups[]>(groupsData);
+
+  const form = useForm<z.infer<typeof groupFormSchema>>({
+    resolver: zodResolver(groupFormSchema),
+    defaultValues: {
+      uuid: "",
+      gname: "",
+      link: "",
+    },
+  });
 
   const handleEdit = (id: string) => {
     console.log(`Edit item with ID: ${id}`);
     setOpenEdit(true);
 
     const data = columnsData.find((column) => column.uuid === id);
-    if (data) setEditData(data);
+    if (data) {
+      form.setValue("uuid", data.uuid);
+      form.setValue("gname", data.gname);
+      form.setValue("link", data.link);
+    }
+  };
+
+  const handleEditSubmit = (values: z.infer<typeof groupFormSchema>) => {
+    console.log("Submit", values);
   };
 
   const handleDelete = () => {
@@ -64,10 +85,12 @@ export default function Groups() {
         showDelete={true}
       />
       {openEdit && (
-        <DialogEdit
+        <DialogEdit<z.infer<typeof groupFormSchema>>
           open={openEdit}
           setOpen={() => setOpenEdit(false)}
-          editData={editData}
+          oragnism={"Group"}
+          form={form}
+          onSubmit={handleEditSubmit}
         />
       )}
       {openDelete && (
