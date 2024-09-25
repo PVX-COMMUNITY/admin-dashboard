@@ -29,7 +29,10 @@ export function DialogEdit<T extends FieldValues>(props: Props<T>) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent aria-describedby={undefined} className="sm:max-w-[425px]">
+      <DialogContent
+        aria-describedby={undefined}
+        className="sm:max-w-[425px] max-w-[95vw] max-h-[90vh] overflow-auto"
+      >
         <DialogHeader>
           <DialogTitle>Edit {oragnism}</DialogTitle>
         </DialogHeader>
