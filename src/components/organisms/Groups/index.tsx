@@ -46,6 +46,7 @@ export default function Groups() {
 
     const data = columnsData.find((column) => column.uuid === id);
     if (data) {
+      form.clearErrors();
       form.setValue("uuid", data.uuid);
       form.setValue("gname", data.gname);
       form.setValue("link", data.link);

@@ -63,7 +63,7 @@ export function TableCustom(props: Props) {
               );
             })}
             {(showEdit || showDelete) && (
-              <TableCell className="text-right">
+              <TableCell className="text-right flex justify-end">
                 {showEdit && onEdit && (
                   <Button
                     onClick={() => onEdit(columnData.uuid)}

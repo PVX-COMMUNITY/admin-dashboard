@@ -36,19 +36,31 @@ export function DialogEdit<T extends FieldValues>(props: Props<T>) {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             {Object.keys(form.getValues()).map((key) => {
+              const typedKey = key as Path<T>;
+              const fieldValue = form.getValues(typedKey);
+              const fieldType = typeof fieldValue;
+
               return (
                 <FormField
                   key={key}
                   control={form.control}
-                  name={key as Path<T>}
+                  name={typedKey}
                   render={({ field }) => (
                     <FormItem className="mt-4">
-                      <FormLabel>{key}</FormLabel>
+                      <FormLabel className="capitalize">{key}</FormLabel>
                       <FormControl>
                         <Input
                           placeholder={key}
                           {...field}
-                          disabled={field.name === "uuid" ? true : false}
+                          type={fieldType === "number" ? "number" : "text"}
+                          disabled={field.name === "uuid"}
+                          onChange={(e) => {
+                            const value =
+                              fieldType === "number"
+                                ? parseFloat(e.target.value)
+                                : e.target.value;
+                            field.onChange(value);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
