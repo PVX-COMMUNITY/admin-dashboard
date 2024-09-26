@@ -1,12 +1,13 @@
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import donationsData from "@/utils/data/donations.json";
 import { donationFormSchema } from "@/components/organisms/Donations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
 
 export interface IDonations {
   uuid: string;
@@ -34,6 +35,15 @@ export default function Donations() {
     name?: string;
   } | null>(null);
   const [columnsData, setColumnsData] = useState<IDonations[]>(donationsData);
+  const [products, setProducts] = useState<IDonations[]>(columnsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const filteredData = columnsData.filter((item) =>
+      item.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setProducts(filteredData);
+  }, [searchTerm]);
 
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
@@ -88,9 +98,18 @@ export default function Donations() {
 
   return (
     <div>
+      <div className="flex">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="text-white my-4 w-[60%]"
+        />
+      </div>
       <TableCustom
         columnsName={columnsName}
-        columnsData={columnsData}
+        columnsData={products}
         onEdit={handleEdit}
         onDelete={handleDeletePopup}
         showEdit={true}

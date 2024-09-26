@@ -1,12 +1,13 @@
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import groupsData from "@/utils/data/groups.json";
 import { groupFormSchema } from "@/components/organisms/Groups/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
 
 export interface IGroups {
   uuid: string;
@@ -32,6 +33,15 @@ export default function Groups() {
     name?: string;
   } | null>(null);
   const [columnsData, setColumnsData] = useState<IGroups[]>(groupsData);
+  const [products, setProducts] = useState<IGroups[]>(columnsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const filteredData = columnsData.filter((item) =>
+      item.gname.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setProducts(filteredData);
+  }, [searchTerm]);
 
   const form = useForm<z.infer<typeof groupFormSchema>>({
     resolver: zodResolver(groupFormSchema),
@@ -81,9 +91,18 @@ export default function Groups() {
 
   return (
     <div>
+      <div className="flex">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="text-white my-4 w-[60%]"
+        />
+      </div>
       <TableCustom
         columnsName={columnsName}
-        columnsData={columnsData}
+        columnsData={products}
         onEdit={handleEdit}
         onDelete={handleDeletePopup}
         showEdit={true}
