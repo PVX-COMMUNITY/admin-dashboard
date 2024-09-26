@@ -16,21 +16,23 @@ export interface IMembers {
   [key: string]: string | number;
 }
 
+const columnsName = [
+  { name: "Username", mapper: "username" },
+  { name: "Number", mapper: "number" },
+  { name: "Donation", mapper: "donation" },
+];
+
+const findMemberById = (id: string, data: IMembers[]) =>
+  data.find((member) => member.uuid === id) || null;
+
 export default function Members() {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
-    oragnism: string;
-    name: string | undefined;
+    organism: string;
+    name?: string;
   } | null>(null);
-
-  const columnsName = [
-    { name: "Username", mapper: "username" },
-    { name: "Number", mapper: "number" },
-    { name: "Donation", mapper: "donation" },
-  ];
-
   const [columnsData, setColumnsData] = useState<IMembers[]>(membersData);
 
   const form = useForm<z.infer<typeof memberFormSchema>>({
@@ -44,39 +46,42 @@ export default function Members() {
   });
 
   const handleEdit = (id: string) => {
-    console.log(`Edit item with ID: ${id}`);
-    setOpenEdit(true);
-
-    const data = columnsData.find((column) => column.uuid === id);
-    if (data) {
+    const member = findMemberById(id, columnsData);
+    if (member) {
       form.clearErrors();
-      form.setValue("uuid", data.uuid);
-      form.setValue("username", data.username);
-      form.setValue("number", data.number);
-      form.setValue("donation", data.donation);
+      form.setValue("uuid", member.uuid);
+      form.setValue("username", member.username);
+      form.setValue("number", member.number);
+      form.setValue("donation", member.donation);
+    }
+    setOpenEdit(true);
+  };
+
+  const handleEditSubmit = async (values: z.infer<typeof memberFormSchema>) => {
+    try {
+      console.log("Submit", values);
+      // TODO: Add logic to save the edited member (e.g., API call)
+    } catch (error) {
+      console.error("Edit submission error:", error);
     }
   };
 
-  const handleEditSubmit = (values: z.infer<typeof memberFormSchema>) => {
-    console.log("Submit", values);
-  };
-
   const handleDeletePopup = (id: string) => {
-    console.log(`Delete item with ID: ${id}`);
-    setDeleteData({
-      id: id,
-      oragnism: "Member",
-      name: columnsData.filter((member) => member.uuid === id).at(0)?.username,
-    });
-    setOpenDelete(true);
+    const member = findMemberById(id, columnsData);
+    if (member) {
+      setDeleteData({ id, organism: "Member", name: member.username });
+      setOpenDelete(true);
+    }
   };
 
   const handleDelete = () => {
-    // TODO : handle actual deletion from db here
-    setColumnsData(
-      columnsData.filter((member) => member.uuid !== deleteData?.id)
-    );
-    setOpenDelete(false);
+    if (deleteData) {
+      setColumnsData(
+        columnsData.filter((member) => member.uuid !== deleteData.id)
+      );
+      setOpenDelete(false);
+      // TODO: Add logic to delete from DB
+    }
   };
 
   return (
@@ -93,7 +98,7 @@ export default function Members() {
         <DialogEdit<z.infer<typeof memberFormSchema>>
           open={openEdit}
           setOpen={() => setOpenEdit(false)}
-          oragnism={"Group"}
+          organism={"Member"}
           form={form}
           onSubmit={handleEditSubmit}
         />
@@ -104,9 +109,7 @@ export default function Members() {
           setOpen={() => setOpenDelete(false)}
           deleteData={deleteData}
           onDelete={handleDelete}
-          onCancel={() => {
-            setOpenDelete(false);
-          }}
+          onCancel={() => setOpenDelete(false)}
         />
       )}
     </div>

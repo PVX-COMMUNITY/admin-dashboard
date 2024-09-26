@@ -15,20 +15,22 @@ export interface IGroups {
   [key: string]: string;
 }
 
+const columnsName = [
+  { name: "Name", mapper: "gname" },
+  { name: "Link", mapper: "link" },
+];
+
+const findGroupById = (id: string, data: IGroups[]) =>
+  data.find((group) => group.uuid === id) || null;
+
 export default function Groups() {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
-    oragnism: string;
-    name: string | undefined;
+    organism: string;
+    name?: string;
   } | null>(null);
-
-  const columnsName = [
-    { name: "Name", mapper: "gname" },
-    { name: "Link", mapper: "link" },
-  ];
-
   const [columnsData, setColumnsData] = useState<IGroups[]>(groupsData);
 
   const form = useForm<z.infer<typeof groupFormSchema>>({
@@ -41,38 +43,40 @@ export default function Groups() {
   });
 
   const handleEdit = (id: string) => {
-    console.log(`Edit item with ID: ${id}`);
-    setOpenEdit(true);
-
-    const data = columnsData.find((column) => column.uuid === id);
-    if (data) {
+    const group = findGroupById(id, columnsData);
+    if (group) {
       form.clearErrors();
-      form.setValue("uuid", data.uuid);
-      form.setValue("gname", data.gname);
-      form.setValue("link", data.link);
+      form.setValue("uuid", group.uuid);
+      form.setValue("gname", group.gname);
+      form.setValue("link", group.link);
+    }
+    setOpenEdit(true);
+  };
+
+  const handleEditSubmit = async (values: z.infer<typeof groupFormSchema>) => {
+    try {
+      console.log("Submit", values);
+      // TODO: Add logic to save the edited data (e.g., API call)
+    } catch (error) {
+      console.error("Edit submission error:", error);
     }
   };
 
-  const handleEditSubmit = (values: z.infer<typeof groupFormSchema>) => {
-    console.log("Submit", values);
-  };
-
   const handleDelete = () => {
-    // TODO : handle actual deletion from db here
-    setColumnsData(
-      columnsData.filter((group) => group.uuid !== deleteData?.id)
-    );
-    setOpenDelete(false);
+    if (deleteData) {
+      setColumnsData(
+        columnsData.filter((group) => group.uuid !== deleteData.id)
+      );
+      setOpenDelete(false);
+    }
   };
 
   const handleDeletePopup = (id: string) => {
-    console.log(`Delete item with ID: ${id}`);
-    setDeleteData({
-      id: id,
-      oragnism: "Group",
-      name: columnsData.filter((group) => group.uuid === id).at(0)?.gname,
-    });
-    setOpenDelete(true);
+    const group = findGroupById(id, columnsData);
+    if (group) {
+      setDeleteData({ id, organism: "Group", name: group.gname });
+      setOpenDelete(true);
+    }
   };
 
   return (
@@ -89,7 +93,7 @@ export default function Groups() {
         <DialogEdit<z.infer<typeof groupFormSchema>>
           open={openEdit}
           setOpen={() => setOpenEdit(false)}
-          oragnism={"Group"}
+          organism={"Group"}
           form={form}
           onSubmit={handleEditSubmit}
         />
@@ -100,9 +104,7 @@ export default function Groups() {
           setOpen={() => setOpenDelete(false)}
           deleteData={deleteData}
           onDelete={handleDelete}
-          onCancel={() => {
-            setOpenDelete(false);
-          }}
+          onCancel={() => setOpenDelete(false)}
         />
       )}
     </div>

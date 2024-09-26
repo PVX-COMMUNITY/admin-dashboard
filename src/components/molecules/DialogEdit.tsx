@@ -18,14 +18,14 @@ import { FieldValues, UseFormReturn, Path } from "react-hook-form";
 
 interface Props<T extends FieldValues> {
   open: boolean;
-  oragnism: string;
+  organism: string;
   form: UseFormReturn<T>;
   setOpen: () => void;
   onSubmit: (data: T) => void;
 }
 
 export function DialogEdit<T extends FieldValues>(props: Props<T>) {
-  const { open, setOpen, oragnism, form, onSubmit } = props;
+  const { open, setOpen, organism, form, onSubmit } = props;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -34,7 +34,7 @@ export function DialogEdit<T extends FieldValues>(props: Props<T>) {
         className="sm:max-w-[425px] max-w-[95vw] max-h-[90vh] overflow-auto"
       >
         <DialogHeader>
-          <DialogTitle>Edit {oragnism}</DialogTitle>
+          <DialogTitle>Edit {organism}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
