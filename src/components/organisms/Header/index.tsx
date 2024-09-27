@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import logo from "@/assets/images/pvx.png";
 
 export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
   const user = {
@@ -29,7 +30,11 @@ export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
         onClick={toggleMenu}
       />
       <div>
-        <p className="text-3xl">PVX</p>
+        <img
+          src={logo}
+          className="w-16 sm:w-20 invert mix-blend-lighten"
+          alt="logo"
+        />
       </div>
       <div className="flex justify-center items-center">
         <DropdownMenu>
