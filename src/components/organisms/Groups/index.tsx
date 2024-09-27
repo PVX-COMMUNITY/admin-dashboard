@@ -135,7 +135,7 @@ export default function Groups() {
           onClick={() => {
             setOpenCreate(true), handleCreate();
           }}
-          className=" m-5 p-4"
+          className=" my-4 p-4 sm:m-5"
         >
           Create
         </Button>

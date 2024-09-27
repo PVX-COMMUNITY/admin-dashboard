@@ -14,7 +14,6 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "../../ui/button";
 
-
 export interface IMembers {
   uuid: string;
   username: string;
@@ -91,15 +90,12 @@ export default function Members() {
     }
   };
 
-  
   const handleCreate = () => {
     formCreate.clearErrors();
 
     formCreate.setValue("username", "");
     formCreate.setValue("number", "");
     formCreate.setValue("donation", 0);
-
- 
   };
 
   const handleCreateSubmit = async (
@@ -145,7 +141,7 @@ export default function Members() {
           onClick={() => {
             setOpenCreate(true), handleCreate();
           }}
-          className=" m-5 p-4"
+          className=" my-4 p-4 sm:m-5"
         >
           Create
         </Button>
