@@ -49,7 +49,7 @@ export default function Donations() {
       item.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUserData(filteredData);
-  }, [searchTerm]);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
