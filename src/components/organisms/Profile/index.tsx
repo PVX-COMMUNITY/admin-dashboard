@@ -102,10 +102,10 @@ export default function Profile() {
                           name={field}
                           value={user[field as keyof typeof user]}
                           onChange={handleChange}
-                          className="mt-1"
+                          className="mt-1 bg-gray-700"
                         />
                       ) : (
-                        <p className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                        <p className="mt-1 text-md text-gray-900 dark:text-gray-100 ">
                           {user[field as keyof typeof user]}
                         </p>
                       )}

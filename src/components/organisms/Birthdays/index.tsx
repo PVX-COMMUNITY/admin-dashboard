@@ -1,12 +1,18 @@
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import birthdaysData from "@/utils/data/birthdays.json";
-import { birthdayFormSchema } from "@/components/organisms/Birthdays/schema";
+import {
+  birthdayFormCreateSchema,
+  birthdayFormSchema,
+} from "@/components/organisms/Birthdays/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "../../ui/button";
+import { DialogCreate } from "@/components/molecules/DialogCreate";
 
 export interface IBirthdays {
   uuid: string;
@@ -35,6 +41,7 @@ const findBirthdayById = (id: string, data: IBirthdays[]) =>
 
 export default function Birthdays() {
   const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
@@ -42,6 +49,15 @@ export default function Birthdays() {
     name?: string;
   } | null>(null);
   const [columnsData, setColumnsData] = useState<IBirthdays[]>(birthdaysData);
+  const [userData, setUserData] = useState<IBirthdays[]>(columnsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const filteredData = columnsData.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setUserData(filteredData);
+  }, [searchTerm]);
 
   const form = useForm<z.infer<typeof birthdayFormSchema>>({
     resolver: zodResolver(birthdayFormSchema),
@@ -55,6 +71,40 @@ export default function Birthdays() {
       number: "",
     },
   });
+
+  const formCreate = useForm<z.infer<typeof birthdayFormCreateSchema>>({
+    resolver: zodResolver(birthdayFormCreateSchema),
+    defaultValues: {
+      username: "",
+      day: 0,
+      month: 0,
+      year: 0,
+      place: "",
+      number: "",
+    },
+  });
+
+  const handleCreate = () => {
+    formCreate.clearErrors();
+
+    formCreate.setValue("username", "");
+    formCreate.setValue("day", 0);
+    formCreate.setValue("month", 0);
+    formCreate.setValue("year", 0);
+    formCreate.setValue("place", "");
+    formCreate.setValue("number", "");
+  };
+
+  const handleCreateSubmit = async (
+    values: z.infer<typeof birthdayFormCreateSchema>
+  ) => {
+    try {
+      console.log("Submit", values);
+      // TODO: Add logic to save the edited member (e.g., API call)
+    } catch (error) {
+      console.error("Edit submission error:", error);
+    }
+  };
 
   const handleEdit = (id: string) => {
     const birthday = findBirthdayById(id, columnsData);
@@ -102,14 +152,40 @@ export default function Birthdays() {
 
   return (
     <div>
+      <div className="flex w-full justify-between">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="text-white my-4 w-[60%]"
+        />
+        <Button
+          onClick={() => {
+            setOpenCreate(true), handleCreate();
+          }}
+          className="my-4 p-4 sm:m-5"
+        >
+          Create
+        </Button>
+      </div>
       <TableCustom
         columnsName={columnsName}
-        columnsData={columnsData}
+        columnsData={userData}
         onEdit={handleEdit}
         onDelete={handleDeletePopup}
         showEdit={true}
         showDelete={true}
       />
+      {openCreate && (
+        <DialogCreate<z.infer<typeof birthdayFormCreateSchema>>
+          open={openCreate}
+          setOpen={() => setOpenCreate(false)}
+          organism={"Member"}
+          form={formCreate}
+          onSubmit={handleCreateSubmit}
+        />
+      )}
       {openEdit && (
         <DialogEdit<z.infer<typeof birthdayFormSchema>>
           open={openEdit}

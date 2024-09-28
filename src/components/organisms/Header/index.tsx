@@ -45,17 +45,28 @@ export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
             </Avatar>
             <p className="ml-4 hidden sm:block">{user.name}</p>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="p-2">
+          <DropdownMenuContent
+            className="p-2 opacity-95 
+          rounded-xl space-y-1 m-1 "
+          >
             {/* <DropdownMenuLabel className="block sm:hidden">
               Hi {user.name} !
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="block sm:hidden" /> */}
-            <DropdownMenuItem className="px-8" onClick={handleAvatarClick}>
+            <DropdownMenuItem
+              className="px-8 cursor-pointer  "
+              onClick={handleAvatarClick}
+            >
               View Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="px-8">Settings</DropdownMenuItem>
+
+            <DropdownMenuItem className="px-8 cursor-pointer">
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="px-8">Logout</DropdownMenuItem>
+            <DropdownMenuItem className="px-8 cursor-pointer">
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
