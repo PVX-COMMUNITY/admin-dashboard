@@ -47,7 +47,7 @@ export default function Groups() {
       item.gname.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUserData(filteredData);
-  }, [searchTerm]);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof groupFormSchema>>({
     resolver: zodResolver(groupFormSchema),
@@ -71,6 +71,7 @@ export default function Groups() {
 
     formCreate.setValue("gname", "");
     formCreate.setValue("link", "");
+    setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
@@ -131,12 +132,7 @@ export default function Groups() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="text-white my-4 w-[60%]"
         />
-        <Button
-          onClick={() => {
-            setOpenCreate(true), handleCreate();
-          }}
-          className=" my-4 p-4 sm:m-5"
-        >
+        <Button onClick={handleCreate} className=" my-4 p-4 sm:m-5">
           Create
         </Button>
       </div>

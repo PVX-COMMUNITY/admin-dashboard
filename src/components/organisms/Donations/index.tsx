@@ -49,7 +49,7 @@ export default function Donations() {
       item.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUserData(filteredData);
-  }, [searchTerm]);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
@@ -72,9 +72,12 @@ export default function Donations() {
 
   const handleCreate = () => {
     formCreate.clearErrors();
+
     formCreate.setValue("username", "");
     formCreate.setValue("number", "");
     formCreate.setValue("donation", 0);
+
+    setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
@@ -139,12 +142,7 @@ export default function Donations() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="text-white my-4 w-[60%]"
         />
-        <Button
-          onClick={() => {
-            setOpenCreate(true), handleCreate();
-          }}
-          className="my-4 p-4 sm:m-5"
-        >
+        <Button onClick={handleCreate} className="my-4 p-4 sm:m-5">
           Create
         </Button>
       </div>
