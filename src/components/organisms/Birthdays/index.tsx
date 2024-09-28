@@ -57,7 +57,7 @@ export default function Birthdays() {
       item.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUserData(filteredData);
-  }, [searchTerm]);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof birthdayFormSchema>>({
     resolver: zodResolver(birthdayFormSchema),
@@ -93,6 +93,8 @@ export default function Birthdays() {
     formCreate.setValue("year", 0);
     formCreate.setValue("place", "");
     formCreate.setValue("number", "");
+
+    setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
@@ -160,12 +162,7 @@ export default function Birthdays() {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="text-white my-4 w-[60%]"
         />
-        <Button
-          onClick={() => {
-            setOpenCreate(true), handleCreate();
-          }}
-          className="my-4 p-4 sm:m-5"
-        >
+        <Button onClick={handleCreate} className="my-4 p-4 sm:m-5">
           Create
         </Button>
       </div>

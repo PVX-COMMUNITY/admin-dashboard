@@ -43,7 +43,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-screen p-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-80">
           <h1 className="mb-4">PVX ADMIN DASHBOARD</h1>
