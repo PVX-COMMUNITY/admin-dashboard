@@ -3,6 +3,9 @@ import { ReactNode, useState } from "react";
 import { LiaBirthdayCakeSolid } from "react-icons/lia";
 import { MdOutlineCurrencyRupee, MdGroup, MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
+import { FiX } from "react-icons/fi";
+
+
 import ProfilePage from "./components/pages/ProfilePage";
 import Header from "@/components/organisms/Header";
 import Sidebar from "@/components/organisms/Sidebar";
@@ -81,21 +84,38 @@ function App() {
   function Layout() {
     return (
       <>
-        <div className="flex min-h-screen">
-          <div
-            className={`${
-              isMenuOpen ? "block" : "hidden"
-            } md:block bg-secondary `}
-          >
-            <Sidebar routes={routes.filter((route) => route.showInSidebar)} />
+      <div className="flex min-h-screen">
+        <div
+          className={`block inset-0 bg-black transition-opacity duration-300 ease-in-out ${
+            isMenuOpen ? 'opacity-50 z-40' : 'opacity-0 -z-10'
+          } md:hidden`}
+          onClick={toggleMenu}
+        ></div>
+
+        <div
+          className={`fixed top-0 left-0 h-screen bg-secondary z-50 transition-all duration-300 ease-in-out transform ${
+            isMenuOpen ? 'translate-x-0 shadow-lg' : '-translate-x-full'
+          } md:relative md:translate-x-0 md:shadow-none`}
+          style={{ width: '135px' }}
+        >
+          <div className="flex justify-between items-center p-4 md:hidden">
+            <FiX
+              className="cursor-pointer transition-transform duration-300 ease-in-out"
+              style={{marginLeft:"80px"}}
+              size={24}
+              onClick={toggleMenu}
+            />
           </div>
-          <div className="flex flex-col w-full">
-            <Header toggleMenu={toggleMenu} isMenuOpen = {isMenuOpen} />
-            <div className="sm:p-8 p-4 bg-primary h-full">
-              <Outlet />
-            </div>
+          <Sidebar routes={routes.filter((route) => route.showInSidebar)} />
+        </div>
+
+        <div className="flex flex-col w-full transition-all duration-300 ease-in-out">
+          <Header toggleMenu={toggleMenu} isMenuOpen = {isMenuOpen} />
+          <div className="sm:p-8 p-4 bg-primary h-full">
+            <Outlet />
           </div>
         </div>
+      </div>
       </>
     );
   }

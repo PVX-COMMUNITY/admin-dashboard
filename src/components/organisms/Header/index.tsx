@@ -29,20 +29,14 @@ export default function Header({
   };
 
   return (
-    <div className="bg-primary sm:px-8 px-4 py-4 w-full flex justify-between items-center">
-{!isMenuOpen ? (
+    <div className="bg-primary sm:px-8 px-4 py-4 w-full flex justify-between items-center relative">
+{!isMenuOpen && (
         <FiMenu
           className="block md:hidden cursor-pointer"
           size={30}
           onClick={toggleMenu} 
         />
-      ) : (
-        <FiX
-          className="block md:hidden cursor-pointer"
-          size={30}
-          onClick={toggleMenu} 
-        />
-      )}
+      ) }
       <div>
         <img
           src={logo}
