@@ -52,25 +52,16 @@ export default function Groups() {
   const form = useForm<z.infer<typeof groupFormSchema>>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: {
-      uuid: "",
-      gname: "",
-      link: "",
-    },
-  });
-
-  const formCreate = useForm<z.infer<typeof groupFormCreateSchema>>({
-    resolver: zodResolver(groupFormCreateSchema),
-    defaultValues: {
       gname: "",
       link: "",
     },
   });
 
   const handleCreate = () => {
-    formCreate.clearErrors();
+    form.clearErrors();
 
-    formCreate.setValue("gname", "");
-    formCreate.setValue("link", "");
+    form.setValue("gname", "");
+    form.setValue("link", "");
     setOpenCreate(true);
   };
 
@@ -89,7 +80,6 @@ export default function Groups() {
     const group = findGroupById(id, columnsData);
     if (group) {
       form.clearErrors();
-      form.setValue("uuid", group.uuid);
       form.setValue("gname", group.gname);
       form.setValue("link", group.link);
     }
@@ -149,7 +139,7 @@ export default function Groups() {
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}

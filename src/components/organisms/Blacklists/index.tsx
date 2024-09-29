@@ -54,16 +54,6 @@ export default function Blacklists() {
   const form = useForm<z.infer<typeof blacklistFormSchema>>({
     resolver: zodResolver(blacklistFormSchema),
     defaultValues: {
-      uuid: "",
-      number: "",
-      reason: "",
-      admin: "",
-    },
-  });
-
-  const formCreate = useForm<z.infer<typeof blacklistFormCreateSchema>>({
-    resolver: zodResolver(blacklistFormCreateSchema),
-    defaultValues: {
       number: "",
       reason: "",
       admin: "",
@@ -71,11 +61,10 @@ export default function Blacklists() {
   });
 
   const handleCreate = () => {
-    formCreate.clearErrors();
-
-    formCreate.setValue("number", "");
-    formCreate.setValue("reason", "");
-    formCreate.setValue("admin", "");
+    form.clearErrors();
+    form.setValue("number", "");
+    form.setValue("reason", "");
+    form.setValue("admin", "");
 
     setOpenCreate(true);
   };
@@ -95,7 +84,6 @@ export default function Blacklists() {
     const blacklist = findBlacklistById(id, columnsData);
     if (blacklist) {
       form.clearErrors();
-      form.setValue("uuid", blacklist.uuid);
       form.setValue("number", blacklist.number);
       form.setValue("reason", blacklist.reason);
       form.setValue("admin", blacklist.admin);
@@ -159,7 +147,7 @@ export default function Blacklists() {
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}

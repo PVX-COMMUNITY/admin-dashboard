@@ -54,16 +54,6 @@ export default function Donations() {
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
     defaultValues: {
-      uuid: "",
-      username: "",
-      number: "",
-      donation: 0,
-    },
-  });
-
-  const formCreate = useForm<z.infer<typeof donationFormCreateSchema>>({
-    resolver: zodResolver(donationFormCreateSchema),
-    defaultValues: {
       username: "",
       number: "",
       donation: 0,
@@ -71,10 +61,10 @@ export default function Donations() {
   });
 
   const handleCreate = () => {
-    formCreate.clearErrors();
-    formCreate.setValue("username", "");
-    formCreate.setValue("number", "");
-    formCreate.setValue("donation", 0);
+    form.clearErrors();
+    form.setValue("username", "");
+    form.setValue("number", "");
+    form.setValue("donation", 0);
 
     setOpenCreate(true);
   };
@@ -94,7 +84,7 @@ export default function Donations() {
     const donation = findDonationById(id, columnsData);
     if (donation) {
       form.clearErrors();
-      form.setValue("uuid", donation.uuid);
+
       form.setValue("username", donation.username);
       form.setValue("number", donation.number);
       form.setValue("donation", donation.donation);
@@ -158,7 +148,7 @@ export default function Donations() {
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}
