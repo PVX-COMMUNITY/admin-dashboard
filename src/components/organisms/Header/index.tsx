@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -48,6 +48,7 @@ export default function Header({
         <DropdownMenu>
           <DropdownMenuTrigger className="flex justify-center items-center">
             <Avatar className="cursor-pointer">
+
               <AvatarImage src={user.avatar} alt={user.name} />
               <AvatarFallback>{user.initials}</AvatarFallback>
             </Avatar>
