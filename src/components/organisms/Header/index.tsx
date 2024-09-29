@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FiMenu } from "react-icons/fi";
+import { FiMenu, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
@@ -10,7 +10,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import logo from "@/assets/images/pvx.png";
 
-export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
+export default function Header({
+  toggleMenu,
+  isMenuOpen,
+}: {
+  toggleMenu: () => void;
+  isMenuOpen: boolean;
+}) {
   const user = {
     name: "Full Name",
     avatar: "https://github.com/shadcn.png",
@@ -24,11 +30,19 @@ export default function Header({ toggleMenu }: { toggleMenu: () => void }) {
 
   return (
     <div className="bg-primary sm:px-8 px-4 py-4 w-full flex justify-between items-center">
-      <FiMenu
-        className="block md:hidden cursor-pointer"
-        size={30}
-        onClick={toggleMenu}
-      />
+{!isMenuOpen ? (
+        <FiMenu
+          className="block md:hidden cursor-pointer"
+          size={30}
+          onClick={toggleMenu} 
+        />
+      ) : (
+        <FiX
+          className="block md:hidden cursor-pointer"
+          size={30}
+          onClick={toggleMenu} 
+        />
+      )}
       <div>
         <img
           src={logo}
