@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { ReactNode, useState } from "react";
-import { LiaBirthdayCakeSolid } from "react-icons/lia";
+import { LiaBirthdayCakeSolid, LiaBanSolid } from "react-icons/lia";
 import { MdOutlineCurrencyRupee, MdGroup, MdDashboard } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
 import ProfilePage from "./components/pages/ProfilePage";
@@ -13,6 +13,7 @@ import BirthdaysPage from "@/components/pages/BirthdaysPage";
 import DonationsPage from "@/components/pages/DonationsPage";
 import DashboardPage from "./components/pages/DashboardPage";
 import NotFoundPage from "./components/pages/NotFoundPage";
+import BlacklistsPage from "./components/pages/BlacklistsPage";
 
 export interface Routes {
   name: string;
@@ -57,6 +58,13 @@ function App() {
       showInSidebar: true,
     },
     {
+      name: "Blacklists",
+      path: "/dashboard/blacklists",
+      element: <BlacklistsPage />,
+      icon: <LiaBanSolid size={"30px"} />,
+      showInSidebar: true,
+    },
+    {
       name: "Donations",
       path: "/dashboard/donations",
       element: <DonationsPage />,
@@ -74,7 +82,7 @@ function App() {
       path: "/dashboard/profile",
       element: <ProfilePage />,
       icon: <FaUser size={"22px"} />,
-      showInSidebar:true
+      showInSidebar: true,
     },
   ];
 
