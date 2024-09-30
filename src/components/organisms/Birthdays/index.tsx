@@ -3,10 +3,7 @@ import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useEffect, useState } from "react";
 import birthdaysData from "@/utils/data/birthdays.json";
-import {
-  birthdayFormCreateSchema,
-  birthdayFormSchema,
-} from "@/components/organisms/Birthdays/schema";
+import { birthdayFormSchema } from "@/components/organisms/Birthdays/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -62,19 +59,6 @@ export default function Birthdays() {
   const form = useForm<z.infer<typeof birthdayFormSchema>>({
     resolver: zodResolver(birthdayFormSchema),
     defaultValues: {
-      uuid: "",
-      username: "",
-      day: 0,
-      month: 0,
-      year: 0,
-      place: "",
-      number: "",
-    },
-  });
-
-  const formCreate = useForm<z.infer<typeof birthdayFormCreateSchema>>({
-    resolver: zodResolver(birthdayFormCreateSchema),
-    defaultValues: {
       username: "",
       day: 0,
       month: 0,
@@ -85,20 +69,20 @@ export default function Birthdays() {
   });
 
   const handleCreate = () => {
-    formCreate.clearErrors();
+    form.clearErrors();
 
-    formCreate.setValue("username", "");
-    formCreate.setValue("day", 0);
-    formCreate.setValue("month", 0);
-    formCreate.setValue("year", 0);
-    formCreate.setValue("place", "");
-    formCreate.setValue("number", "");
+    form.setValue("username", "");
+    form.setValue("day", 0);
+    form.setValue("month", 0);
+    form.setValue("year", 0);
+    form.setValue("place", "");
+    form.setValue("number", "");
 
     setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof birthdayFormCreateSchema>
+    values: z.infer<typeof birthdayFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -112,7 +96,7 @@ export default function Birthdays() {
     const birthday = findBirthdayById(id, columnsData);
     if (birthday) {
       form.clearErrors();
-      form.setValue("uuid", birthday.uuid);
+
       form.setValue("username", birthday.username);
       form.setValue("day", birthday.day);
       form.setValue("month", birthday.month);
@@ -175,11 +159,11 @@ export default function Birthdays() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof birthdayFormCreateSchema>>
+        <DialogCreate<z.infer<typeof birthdayFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}

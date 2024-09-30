@@ -3,10 +3,7 @@ import { TableCustom } from "@/components/molecules/TableCustom";
 import { useEffect, useState } from "react";
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import groupsData from "@/utils/data/groups.json";
-import {
-  groupFormCreateSchema,
-  groupFormSchema,
-} from "@/components/organisms/Groups/schema";
+import { groupFormSchema } from "@/components/organisms/Groups/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -52,30 +49,21 @@ export default function Groups() {
   const form = useForm<z.infer<typeof groupFormSchema>>({
     resolver: zodResolver(groupFormSchema),
     defaultValues: {
-      uuid: "",
-      gname: "",
-      link: "",
-    },
-  });
-
-  const formCreate = useForm<z.infer<typeof groupFormCreateSchema>>({
-    resolver: zodResolver(groupFormCreateSchema),
-    defaultValues: {
       gname: "",
       link: "",
     },
   });
 
   const handleCreate = () => {
-    formCreate.clearErrors();
+    form.clearErrors();
 
-    formCreate.setValue("gname", "");
-    formCreate.setValue("link", "");
+    form.setValue("gname", "");
+    form.setValue("link", "");
     setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof groupFormCreateSchema>
+    values: z.infer<typeof groupFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -89,7 +77,6 @@ export default function Groups() {
     const group = findGroupById(id, columnsData);
     if (group) {
       form.clearErrors();
-      form.setValue("uuid", group.uuid);
       form.setValue("gname", group.gname);
       form.setValue("link", group.link);
     }
@@ -145,11 +132,11 @@ export default function Groups() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof groupFormCreateSchema>>
+        <DialogCreate<z.infer<typeof groupFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}

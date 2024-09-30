@@ -4,10 +4,7 @@ import { DialogDelete } from "../../molecules/DialogDelete";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { DialogCreate } from "@/components/molecules/DialogCreate";
 import membersData from "@/utils/data/members.json";
-import {
-  memberFormSchema,
-  memberFormCreateSchema,
-} from "@/components/organisms/Members/schema";
+import { memberFormSchema } from "@/components/organisms/Members/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -54,15 +51,6 @@ export default function Members() {
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
-      uuid: "",
-      username: "",
-      number: "",
-      donation: 0,
-    },
-  });
-  const formCreate = useForm<z.infer<typeof memberFormCreateSchema>>({
-    resolver: zodResolver(memberFormCreateSchema),
-    defaultValues: {
       username: "",
       number: "",
       donation: 0,
@@ -73,7 +61,6 @@ export default function Members() {
     const member = findMemberById(id, columnsData);
     if (member) {
       form.clearErrors();
-      form.setValue("uuid", member.uuid);
       form.setValue("username", member.username);
       form.setValue("number", member.number);
       form.setValue("donation", member.donation);
@@ -91,17 +78,17 @@ export default function Members() {
   };
 
   const handleCreate = () => {
-    formCreate.clearErrors();
+    form.clearErrors();
 
-    formCreate.setValue("username", "");
-    formCreate.setValue("number", "");
-    formCreate.setValue("donation", 0);
+    form.setValue("username", "");
+    form.setValue("number", "");
+    form.setValue("donation", 0);
 
     setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof memberFormCreateSchema>
+    values: z.infer<typeof memberFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -152,11 +139,11 @@ export default function Members() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof memberFormCreateSchema>>
+        <DialogCreate<z.infer<typeof memberFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}

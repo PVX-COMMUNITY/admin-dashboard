@@ -3,10 +3,7 @@ import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useEffect, useState } from "react";
 import blacklistsData from "@/utils/data/blacklist.json";
-import {
-  blacklistFormCreateSchema,
-  blacklistFormSchema,
-} from "@/components/organisms/Blacklists/schema";
+import { blacklistFormSchema } from "@/components/organisms/Blacklists/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -54,16 +51,6 @@ export default function Blacklists() {
   const form = useForm<z.infer<typeof blacklistFormSchema>>({
     resolver: zodResolver(blacklistFormSchema),
     defaultValues: {
-      uuid: "",
-      number: "",
-      reason: "",
-      admin: "",
-    },
-  });
-
-  const formCreate = useForm<z.infer<typeof blacklistFormCreateSchema>>({
-    resolver: zodResolver(blacklistFormCreateSchema),
-    defaultValues: {
       number: "",
       reason: "",
       admin: "",
@@ -71,17 +58,16 @@ export default function Blacklists() {
   });
 
   const handleCreate = () => {
-    formCreate.clearErrors();
-
-    formCreate.setValue("number", "");
-    formCreate.setValue("reason", "");
-    formCreate.setValue("admin", "");
+    form.clearErrors();
+    form.setValue("number", "");
+    form.setValue("reason", "");
+    form.setValue("admin", "");
 
     setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof blacklistFormCreateSchema>
+    values: z.infer<typeof blacklistFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -95,7 +81,6 @@ export default function Blacklists() {
     const blacklist = findBlacklistById(id, columnsData);
     if (blacklist) {
       form.clearErrors();
-      form.setValue("uuid", blacklist.uuid);
       form.setValue("number", blacklist.number);
       form.setValue("reason", blacklist.reason);
       form.setValue("admin", blacklist.admin);
@@ -155,11 +140,11 @@ export default function Blacklists() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof blacklistFormCreateSchema>>
+        <DialogCreate<z.infer<typeof blacklistFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
-          form={formCreate}
+          form={form}
           onSubmit={handleCreateSubmit}
         />
       )}
