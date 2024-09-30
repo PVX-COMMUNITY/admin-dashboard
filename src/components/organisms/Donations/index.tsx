@@ -1,12 +1,18 @@
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import donationsData from "@/utils/data/donations.json";
-import { donationFormSchema } from "@/components/organisms/Donations/schema";
+import {
+  donationFormCreateSchema,
+  donationFormSchema,
+} from "@/components/organisms/Donations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "../../ui/button";
+import { DialogCreate } from "@/components/molecules/DialogCreate";
 
 export interface IDonations {
   uuid: string;
@@ -27,6 +33,7 @@ const findDonationById = (id: string, data: IDonations[]) =>
 
 export default function Donations() {
   const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
@@ -34,6 +41,15 @@ export default function Donations() {
     name?: string;
   } | null>(null);
   const [columnsData, setColumnsData] = useState<IDonations[]>(donationsData);
+  const [userData, setUserData] = useState<IDonations[]>(columnsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const filteredData = columnsData.filter((item) =>
+      item.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setUserData(filteredData);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
@@ -44,6 +60,36 @@ export default function Donations() {
       donation: 0,
     },
   });
+
+  const formCreate = useForm<z.infer<typeof donationFormCreateSchema>>({
+    resolver: zodResolver(donationFormCreateSchema),
+    defaultValues: {
+      username: "",
+      number: "",
+      donation: 0,
+    },
+  });
+
+  const handleCreate = () => {
+    formCreate.clearErrors();
+
+    formCreate.setValue("username", "");
+    formCreate.setValue("number", "");
+    formCreate.setValue("donation", 0);
+
+    setOpenCreate(true);
+  };
+
+  const handleCreateSubmit = async (
+    values: z.infer<typeof donationFormCreateSchema>
+  ) => {
+    try {
+      console.log("Submit", values);
+      // TODO: Add logic to save the edited member (e.g., API call)
+    } catch (error) {
+      console.error("Edit submission error:", error);
+    }
+  };
 
   const handleEdit = (id: string) => {
     const donation = findDonationById(id, columnsData);
@@ -88,14 +134,35 @@ export default function Donations() {
 
   return (
     <div>
+      <div className="flex w-full justify-between">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="text-white my-4 w-[60%]"
+        />
+        <Button onClick={handleCreate} className="my-4 p-4 sm:m-5">
+          Create
+        </Button>
+      </div>
       <TableCustom
         columnsName={columnsName}
-        columnsData={columnsData}
+        columnsData={userData}
         onEdit={handleEdit}
         onDelete={handleDeletePopup}
         showEdit={true}
         showDelete={true}
       />
+      {openCreate && (
+        <DialogCreate<z.infer<typeof donationFormCreateSchema>>
+          open={openCreate}
+          setOpen={() => setOpenCreate(false)}
+          organism={"Member"}
+          form={formCreate}
+          onSubmit={handleCreateSubmit}
+        />
+      )}
       {openEdit && (
         <DialogEdit<z.infer<typeof donationFormSchema>>
           open={openEdit}

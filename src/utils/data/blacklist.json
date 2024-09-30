@@ -1,0 +1,92 @@
+[
+  {
+    "uuid": "f1b2a1c3-d4e5-6789-abcd-ef0123456789",
+    "number": "1234567890",
+    "reason": "Inappropriate language",
+    "admin": "9876543210"
+  },
+  {
+    "uuid": "a2b3c4d5-e6f7-8901-abcd-ef0123456789",
+    "number": "2345678901",
+    "reason": "Spamming",
+    "admin": "8765432109"
+  },
+  {
+    "uuid": "b3c4d5e6-f7g8-9012-abcd-ef0123456789",
+    "number": "3456789012",
+    "reason": "Hate speech",
+    "admin": "7654321098"
+  },
+  {
+    "uuid": "c4d5e6f7-g8h9-0123-abcd-ef0123456789",
+    "number": "4567890123",
+    "reason": "Fraudulent activity",
+    "admin": "6543210987"
+  },
+  {
+    "uuid": "d5e6f7g8-h9i0-1234-abcd-ef0123456789",
+    "number": "5678901234",
+    "reason": "Account sharing",
+    "admin": "5432109876"
+  },
+  {
+    "uuid": "e6f7g8h9-i0j1-2345-abcd-ef0123456789",
+    "number": "6789012345",
+    "reason": "Cheating",
+    "admin": "4321098765"
+  },
+  {
+    "uuid": "f7g8h9i0-j1k2-3456-abcd-ef0123456789",
+    "number": "7890123456",
+    "reason": "Impersonation",
+    "admin": "3210987654"
+  },
+  {
+    "uuid": "g8h9i0j1-k2l3-4567-abcd-ef0123456789",
+    "number": "8901234567",
+    "reason": "Toxic behavior",
+    "admin": "2109876543"
+  },
+  {
+    "uuid": "h9i0j1k2-l3m4-5678-abcd-ef0123456789",
+    "number": "9012345678",
+    "reason": "Scamming users",
+    "admin": "1098765432"
+  },
+  {
+    "uuid": "i0j1k2l3-m4n5-6789-abcd-ef0123456789",
+    "number": "0123456789",
+    "reason": "Threatening others",
+    "admin": "0987654321"
+  },
+  {
+    "uuid": "j1k2l3m4-n5o6-7890-abcd-ef0123456789",
+    "number": "1357924680",
+    "reason": "Insubordination",
+    "admin": "9876123450"
+  },
+  {
+    "uuid": "k2l3m4n5-o6p7-8901-abcd-ef0123456789",
+    "number": "2468013579",
+    "reason": "False information",
+    "admin": "8765432150"
+  },
+  {
+    "uuid": "l3m4n5o6-p7q8-9012-abcd-ef0123456789",
+    "number": "3579135791",
+    "reason": "Vulgar content",
+    "admin": "7654321040"
+  },
+  {
+    "uuid": "m4n5o6p7-q8r9-0123-abcd-ef0123456789",
+    "number": "4680246802",
+    "reason": "Repeated violations",
+    "admin": "6543210985"
+  },
+  {
+    "uuid": "n5o6p7q8-r9s0-1234-abcd-ef0123456789",
+    "number": "5791357913",
+    "reason": "Malicious links",
+    "admin": "5432109874"
+  }
+]

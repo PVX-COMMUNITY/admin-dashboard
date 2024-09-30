@@ -1,12 +1,18 @@
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import groupsData from "@/utils/data/groups.json";
-import { groupFormSchema } from "@/components/organisms/Groups/schema";
+import {
+  groupFormCreateSchema,
+  groupFormSchema,
+} from "@/components/organisms/Groups/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "../../ui/button";
+import { DialogCreate } from "@/components/molecules/DialogCreate";
 
 export interface IGroups {
   uuid: string;
@@ -25,6 +31,7 @@ const findGroupById = (id: string, data: IGroups[]) =>
 
 export default function Groups() {
   const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
@@ -32,6 +39,15 @@ export default function Groups() {
     name?: string;
   } | null>(null);
   const [columnsData, setColumnsData] = useState<IGroups[]>(groupsData);
+  const [userData, setUserData] = useState<IGroups[]>(columnsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const filteredData = columnsData.filter((item) =>
+      item.gname.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setUserData(filteredData);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof groupFormSchema>>({
     resolver: zodResolver(groupFormSchema),
@@ -41,6 +57,33 @@ export default function Groups() {
       link: "",
     },
   });
+
+  const formCreate = useForm<z.infer<typeof groupFormCreateSchema>>({
+    resolver: zodResolver(groupFormCreateSchema),
+    defaultValues: {
+      gname: "",
+      link: "",
+    },
+  });
+
+  const handleCreate = () => {
+    formCreate.clearErrors();
+
+    formCreate.setValue("gname", "");
+    formCreate.setValue("link", "");
+    setOpenCreate(true);
+  };
+
+  const handleCreateSubmit = async (
+    values: z.infer<typeof groupFormCreateSchema>
+  ) => {
+    try {
+      console.log("Submit", values);
+      // TODO: Add logic to save the edited member (e.g., API call)
+    } catch (error) {
+      console.error("Edit submission error:", error);
+    }
+  };
 
   const handleEdit = (id: string) => {
     const group = findGroupById(id, columnsData);
@@ -81,14 +124,35 @@ export default function Groups() {
 
   return (
     <div>
+      <div className="flex w-full justify-between">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="text-white my-4 w-[60%]"
+        />
+        <Button onClick={handleCreate} className=" my-4 p-4 sm:m-5">
+          Create
+        </Button>
+      </div>
       <TableCustom
         columnsName={columnsName}
-        columnsData={columnsData}
+        columnsData={userData}
         onEdit={handleEdit}
         onDelete={handleDeletePopup}
         showEdit={true}
         showDelete={true}
       />
+      {openCreate && (
+        <DialogCreate<z.infer<typeof groupFormCreateSchema>>
+          open={openCreate}
+          setOpen={() => setOpenCreate(false)}
+          organism={"Member"}
+          form={formCreate}
+          onSubmit={handleCreateSubmit}
+        />
+      )}
       {openEdit && (
         <DialogEdit<z.infer<typeof groupFormSchema>>
           open={openEdit}

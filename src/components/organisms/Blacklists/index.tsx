@@ -2,11 +2,11 @@ import { DialogDelete } from "@/components/molecules/DialogDelete";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useEffect, useState } from "react";
-import birthdaysData from "@/utils/data/birthdays.json";
+import blacklistsData from "@/utils/data/blacklist.json";
 import {
-  birthdayFormCreateSchema,
-  birthdayFormSchema,
-} from "@/components/organisms/Birthdays/schema";
+  blacklistFormCreateSchema,
+  blacklistFormSchema,
+} from "@/components/organisms/Blacklists/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -14,32 +14,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "../../ui/button";
 import { DialogCreate } from "@/components/molecules/DialogCreate";
 
-export interface IBirthdays {
+export interface IBlacklists {
   uuid: string;
-  name: string;
-  username: string;
-  day: number;
-  month: number;
-  year: number;
-  place: string;
   number: string;
-  [key: string]: string | number;
+  reason: string;
+  admin: string;
+  [key: string]: string;
 }
 
 const columnsName = [
-  { name: "Name", mapper: "name" },
-  { name: "Username", mapper: "username" },
-  { name: "Day", mapper: "day" },
-  { name: "Month", mapper: "month" },
-  { name: "Year", mapper: "year" },
-  { name: "Place", mapper: "place" },
   { name: "Number", mapper: "number" },
+  { name: "Reason", mapper: "reason" },
+  { name: "Admin", mapper: "admin" },
 ];
 
-const findBirthdayById = (id: string, data: IBirthdays[]) =>
-  data.find((birthday) => birthday.uuid === id) || null;
+const findBlacklistById = (id: string, data: IBlacklists[]) =>
+  data.find((blacklist) => blacklist.uuid === id) || null;
 
-export default function Birthdays() {
+export default function Blacklists() {
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -48,57 +40,48 @@ export default function Birthdays() {
     organism: string;
     name?: string;
   } | null>(null);
-  const [columnsData, setColumnsData] = useState<IBirthdays[]>(birthdaysData);
-  const [userData, setUserData] = useState<IBirthdays[]>(columnsData);
+  const [columnsData, setColumnsData] = useState<IBlacklists[]>(blacklistsData);
+  const [userData, setUserData] = useState<IBlacklists[]>(columnsData);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const filteredData = columnsData.filter((item) =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      item.number.includes(searchTerm)
     );
     setUserData(filteredData);
   }, [searchTerm, columnsData]);
 
-  const form = useForm<z.infer<typeof birthdayFormSchema>>({
-    resolver: zodResolver(birthdayFormSchema),
+  const form = useForm<z.infer<typeof blacklistFormSchema>>({
+    resolver: zodResolver(blacklistFormSchema),
     defaultValues: {
       uuid: "",
-      username: "",
-      day: 0,
-      month: 0,
-      year: 0,
-      place: "",
       number: "",
+      reason: "",
+      admin: "",
     },
   });
 
-  const formCreate = useForm<z.infer<typeof birthdayFormCreateSchema>>({
-    resolver: zodResolver(birthdayFormCreateSchema),
+  const formCreate = useForm<z.infer<typeof blacklistFormCreateSchema>>({
+    resolver: zodResolver(blacklistFormCreateSchema),
     defaultValues: {
-      username: "",
-      day: 0,
-      month: 0,
-      year: 0,
-      place: "",
       number: "",
+      reason: "",
+      admin: "",
     },
   });
 
   const handleCreate = () => {
     formCreate.clearErrors();
 
-    formCreate.setValue("username", "");
-    formCreate.setValue("day", 0);
-    formCreate.setValue("month", 0);
-    formCreate.setValue("year", 0);
-    formCreate.setValue("place", "");
     formCreate.setValue("number", "");
+    formCreate.setValue("reason", "");
+    formCreate.setValue("admin", "");
 
     setOpenCreate(true);
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof birthdayFormCreateSchema>
+    values: z.infer<typeof blacklistFormCreateSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -109,35 +92,32 @@ export default function Birthdays() {
   };
 
   const handleEdit = (id: string) => {
-    const birthday = findBirthdayById(id, columnsData);
-    if (birthday) {
+    const blacklist = findBlacklistById(id, columnsData);
+    if (blacklist) {
       form.clearErrors();
-      form.setValue("uuid", birthday.uuid);
-      form.setValue("username", birthday.username);
-      form.setValue("day", birthday.day);
-      form.setValue("month", birthday.month);
-      form.setValue("year", birthday.year);
-      form.setValue("place", birthday.place);
-      form.setValue("number", birthday.number);
+      form.setValue("uuid", blacklist.uuid);
+      form.setValue("number", blacklist.number);
+      form.setValue("reason", blacklist.reason);
+      form.setValue("admin", blacklist.admin);
     }
     setOpenEdit(true);
   };
 
   const handleEditSubmit = async (
-    values: z.infer<typeof birthdayFormSchema>
+    values: z.infer<typeof blacklistFormSchema>
   ) => {
     try {
       console.log("Submit", values);
-      // TODO: Add logic to save the edited birthday (e.g., API call)
+      // TODO: Add logic to save the edited blacklist (e.g., API call)
     } catch (error) {
       console.error("Edit submission error:", error);
     }
   };
 
   const handleDeletePopup = (id: string) => {
-    const birthday = findBirthdayById(id, columnsData);
-    if (birthday) {
-      setDeleteData({ id, organism: "Birthday", name: birthday.username });
+    const blacklist = findBlacklistById(id, columnsData);
+    if (blacklist) {
+      setDeleteData({ id, organism: "Blacklist", name: blacklist.username });
       setOpenDelete(true);
     }
   };
@@ -145,7 +125,7 @@ export default function Birthdays() {
   const handleDelete = () => {
     if (deleteData) {
       setColumnsData(
-        columnsData.filter((birthday) => birthday.uuid !== deleteData.id)
+        columnsData.filter((blacklist) => blacklist.uuid !== deleteData.id)
       );
       setOpenDelete(false);
       // TODO: Add logic to delete from DB
@@ -175,7 +155,7 @@ export default function Birthdays() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof birthdayFormCreateSchema>>
+        <DialogCreate<z.infer<typeof blacklistFormCreateSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
@@ -184,10 +164,10 @@ export default function Birthdays() {
         />
       )}
       {openEdit && (
-        <DialogEdit<z.infer<typeof birthdayFormSchema>>
+        <DialogEdit<z.infer<typeof blacklistFormSchema>>
           open={openEdit}
           setOpen={() => setOpenEdit(false)}
-          organism={"Birthday"}
+          organism={"Blacklist"}
           form={form}
           onSubmit={handleEditSubmit}
         />

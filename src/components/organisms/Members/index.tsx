@@ -1,12 +1,18 @@
 import { TableCustom } from "@/components/molecules/TableCustom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DialogDelete } from "../../molecules/DialogDelete";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
+import { DialogCreate } from "@/components/molecules/DialogCreate";
 import membersData from "@/utils/data/members.json";
-import { memberFormSchema } from "@/components/organisms/Members/schema";
+import {
+  memberFormSchema,
+  memberFormCreateSchema,
+} from "@/components/organisms/Members/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "../../ui/button";
 
 export interface IMembers {
   uuid: string;
@@ -27,6 +33,7 @@ const findMemberById = (id: string, data: IMembers[]) =>
 
 export default function Members() {
   const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [deleteData, setDeleteData] = useState<{
     id: string;
@@ -34,11 +41,28 @@ export default function Members() {
     name?: string;
   } | null>(null);
   const [columnsData, setColumnsData] = useState<IMembers[]>(membersData);
+  const [userData, setUserData] = useState<IMembers[]>(columnsData);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const filteredData = columnsData.filter((item) =>
+      item.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setUserData(filteredData);
+  }, [searchTerm, columnsData]);
 
   const form = useForm<z.infer<typeof memberFormSchema>>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
       uuid: "",
+      username: "",
+      number: "",
+      donation: 0,
+    },
+  });
+  const formCreate = useForm<z.infer<typeof memberFormCreateSchema>>({
+    resolver: zodResolver(memberFormCreateSchema),
+    defaultValues: {
       username: "",
       number: "",
       donation: 0,
@@ -58,6 +82,27 @@ export default function Members() {
   };
 
   const handleEditSubmit = async (values: z.infer<typeof memberFormSchema>) => {
+    try {
+      console.log("Submit", values);
+      // TODO: Add logic to save the edited member (e.g., API call)
+    } catch (error) {
+      console.error("Edit submission error:", error);
+    }
+  };
+
+  const handleCreate = () => {
+    formCreate.clearErrors();
+
+    formCreate.setValue("username", "");
+    formCreate.setValue("number", "");
+    formCreate.setValue("donation", 0);
+
+    setOpenCreate(true);
+  };
+
+  const handleCreateSubmit = async (
+    values: z.infer<typeof memberFormCreateSchema>
+  ) => {
     try {
       console.log("Submit", values);
       // TODO: Add logic to save the edited member (e.g., API call)
@@ -86,14 +131,35 @@ export default function Members() {
 
   return (
     <div>
+      <div className="flex w-full justify-between">
+        <Input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="text-white my-4 w-[60%]"
+        />
+        <Button onClick={handleCreate} className=" my-4 p-4 sm:m-5">
+          Create
+        </Button>
+      </div>
       <TableCustom
         columnsName={columnsName}
-        columnsData={columnsData}
+        columnsData={userData}
         onEdit={handleEdit}
         onDelete={handleDeletePopup}
         showEdit={true}
         showDelete={true}
       />
+      {openCreate && (
+        <DialogCreate<z.infer<typeof memberFormCreateSchema>>
+          open={openCreate}
+          setOpen={() => setOpenCreate(false)}
+          organism={"Member"}
+          form={formCreate}
+          onSubmit={handleCreateSubmit}
+        />
+      )}
       {openEdit && (
         <DialogEdit<z.infer<typeof memberFormSchema>>
           open={openEdit}
