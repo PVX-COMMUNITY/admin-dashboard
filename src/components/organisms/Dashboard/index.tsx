@@ -1,11 +1,7 @@
-import  { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUsers, FaUserTie, FaLayerGroup} from 'react-icons/fa';
-
 import { MdOutlineCurrencyRupee } from 'react-icons/md';
-
-//for later
-// const API_URL = 'http://localhost:3000/api';
 
 interface DashboardItem {
   title: string;
@@ -43,61 +39,35 @@ interface DashboardData {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [activeTab, setActiveTab] = useState<'groups' | 'members'>('groups');
   const [activeUserTab, setActiveUserTab] = useState<'owner' | 'admin' | 'subAdmin'>('owner');
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        
-        //later replace this is with actual API call
-        // const response = await fetch(`${API_URL}/dashboard`);
-        // const data = await response.json();
-
-        // Simulated API response
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        const data: DashboardData = {
-          totalMembers: Math.floor(Math.random() * 10000),
-          totalGroups: Math.floor(Math.random() * 1000),
-          totalAdmins: Math.floor(Math.random() * 100),
-          totalDonations: 696969,
-          owner: { name: 'John Doe', number: '123-456-7890' },
-          admins: [
-            { name: 'Admin 1', number: '234-567-8901' },
-            { name: 'Admin 2', number: '345-678-9012' },
-            { name: 'Admin 3', number: '456-789-0123' },
-          ],
-          subAdmins: [
-            { name: 'Sub Admin 1', number: '567-890-1234' },
-            { name: 'Sub Admin 2', number: '678-901-2345' },
-            { name: 'Sub Admin 3', number: '789-012-3456' },
-          ],
-          topGroups: Array.from({ length: 10 }, (_, i) => ({
-            name: `Group ${i + 1}`,
-            totalMessages: Math.floor(Math.random() * 10000)
-          })),
-          topMembers: Array.from({ length: 20 }, (_, i) => ({
-            name: `Member ${i + 1}`,
-            totalMessages: Math.floor(Math.random() * 5000)
-          })),
-        };
-
-        setDashboardData(data);
-      } catch (err) {
-        setError('Failed to fetch dashboard data. Please try again later.');
-        console.error('Error fetching dashboard data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchDashboardData();
-  }, []);
+  // Simulated dashboard data
+  const dashboardData: DashboardData = {
+    totalMembers: 5000,
+    totalGroups: 500,
+    totalAdmins: 50,
+    totalDonations: 696969,
+    owner: { name: 'John Doe', number: '123-456-7890' },
+    admins: [
+      { name: 'Admin 1', number: '234-567-8901' },
+      { name: 'Admin 2', number: '345-678-9012' },
+      { name: 'Admin 3', number: '456-789-0123' },
+    ],
+    subAdmins: [
+      { name: 'Sub Admin 1', number: '567-890-1234' },
+      { name: 'Sub Admin 2', number: '678-901-2345' },
+      { name: 'Sub Admin 3', number: '789-012-3456' },
+    ],
+    topGroups: Array.from({ length: 10 }, (_, i) => ({
+      name: `Group ${i + 1}`,
+      totalMessages: Math.floor(Math.random() * 10000)
+    })),
+    topMembers: Array.from({ length: 20 }, (_, i) => ({
+      name: `Member ${i + 1}`,
+      totalMessages: Math.floor(Math.random() * 5000)
+    })),
+  };
 
   const handleBoxClick = (route: string) => {
     navigate(route);
@@ -146,6 +116,7 @@ export default function Dashboard() {
       </table>
     </div>
   );
+
   const renderUserTabs = () => (
     <div className="bg-purple-900 rounded-lg p-4">
       <div className="flex mb-4">
@@ -168,15 +139,15 @@ export default function Dashboard() {
           Sub Admins
         </button>
       </div>
-      {activeUserTab === 'owner' && renderUserTable([dashboardData!.owner], 'Owner')}
-      {activeUserTab === 'admin' && renderUserTable(dashboardData!.admins, 'Admin')}
-      {activeUserTab === 'subAdmin' && renderUserTable(dashboardData!.subAdmins, 'Sub Admin')}
+      {activeUserTab === 'owner' && renderUserTable([dashboardData.owner], 'Owner')}
+      {activeUserTab === 'admin' && renderUserTable(dashboardData.admins, 'Admin')}
+      {activeUserTab === 'subAdmin' && renderUserTable(dashboardData.subAdmins, 'Sub Admin')}
     </div>
   );
 
   const renderStatsTable = () => (
     <div className="bg-purple-900 rounded-lg p-4">
-       <h3 className="text-xl font-semibold mb-4 underline">Statistics</h3>
+      <h3 className="text-xl font-semibold mb-4 underline">Statistics</h3>
       <div className="flex mb-4">
         <button
           className={`px-4 py-2 rounded-tl-lg rounded-tr-lg ${activeTab === 'groups' ? 'bg-purple-700 text-white' : 'bg-purple-800 text-gray-300'}`}
@@ -200,7 +171,7 @@ export default function Dashboard() {
           </tr>
         </thead>
         <tbody>
-          {(activeTab === 'groups' ? dashboardData!.topGroups : dashboardData!.topMembers).map((item, index) => (
+          {(activeTab === 'groups' ? dashboardData.topGroups : dashboardData.topMembers).map((item, index) => (
             <tr key={index} className="border-t border-purple-700">
               <td className="py-2">{index + 1}</td>
               <td className="py-2">{item.name}</td>
@@ -211,26 +182,6 @@ export default function Dashboard() {
       </table>
     </div>
   );
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-navy-900">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-navy-900 text-white">
-        <p className="text-xl">{error}</p>
-      </div>
-    );
-  }
-
-  if (!dashboardData) {
-    return null;
-  }
 
   const dashboardItems: DashboardItem[] = [
     { title: 'Total Members', value: dashboardData.totalMembers, color: 'bg-green-500', route: '/dashboard/members' },
@@ -252,5 +203,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-
 }
