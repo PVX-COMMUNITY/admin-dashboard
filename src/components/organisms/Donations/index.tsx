@@ -3,10 +3,7 @@ import { TableCustom } from "@/components/molecules/TableCustom";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { useEffect, useState } from "react";
 import donationsData from "@/utils/data/donations.json";
-import {
-  donationFormCreateSchema,
-  donationFormSchema,
-} from "@/components/organisms/Donations/schema";
+import { donationFormSchema } from "@/components/organisms/Donations/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -70,7 +67,7 @@ export default function Donations() {
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof donationFormCreateSchema>
+    values: z.infer<typeof donationFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -144,7 +141,7 @@ export default function Donations() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof donationFormCreateSchema>>
+        <DialogCreate<z.infer<typeof donationFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}

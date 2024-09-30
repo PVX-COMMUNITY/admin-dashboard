@@ -3,10 +3,7 @@ import { TableCustom } from "@/components/molecules/TableCustom";
 import { useEffect, useState } from "react";
 import { DialogDelete } from "@/components/molecules/DialogDelete";
 import groupsData from "@/utils/data/groups.json";
-import {
-  groupFormCreateSchema,
-  groupFormSchema,
-} from "@/components/organisms/Groups/schema";
+import { groupFormSchema } from "@/components/organisms/Groups/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,7 +63,7 @@ export default function Groups() {
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof groupFormCreateSchema>
+    values: z.infer<typeof groupFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -135,7 +132,7 @@ export default function Groups() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof groupFormCreateSchema>>
+        <DialogCreate<z.infer<typeof groupFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}

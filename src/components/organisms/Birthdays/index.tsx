@@ -3,10 +3,7 @@ import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { TableCustom } from "@/components/molecules/TableCustom";
 import { useEffect, useState } from "react";
 import birthdaysData from "@/utils/data/birthdays.json";
-import {
-  birthdayFormCreateSchema,
-  birthdayFormSchema,
-} from "@/components/organisms/Birthdays/schema";
+import { birthdayFormSchema } from "@/components/organisms/Birthdays/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -85,7 +82,7 @@ export default function Birthdays() {
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof birthdayFormCreateSchema>
+    values: z.infer<typeof birthdayFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -162,7 +159,7 @@ export default function Birthdays() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof birthdayFormCreateSchema>>
+        <DialogCreate<z.infer<typeof birthdayFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}

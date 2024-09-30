@@ -4,10 +4,7 @@ import { DialogDelete } from "../../molecules/DialogDelete";
 import { DialogEdit } from "@/components/molecules/DialogEdit";
 import { DialogCreate } from "@/components/molecules/DialogCreate";
 import membersData from "@/utils/data/members.json";
-import {
-  memberFormSchema,
-  memberFormCreateSchema,
-} from "@/components/organisms/Members/schema";
+import { memberFormSchema } from "@/components/organisms/Members/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -91,7 +88,7 @@ export default function Members() {
   };
 
   const handleCreateSubmit = async (
-    values: z.infer<typeof memberFormCreateSchema>
+    values: z.infer<typeof memberFormSchema>
   ) => {
     try {
       console.log("Submit", values);
@@ -142,7 +139,7 @@ export default function Members() {
         showDelete={true}
       />
       {openCreate && (
-        <DialogCreate<z.infer<typeof memberFormCreateSchema>>
+        <DialogCreate<z.infer<typeof memberFormSchema>>
           open={openCreate}
           setOpen={() => setOpenCreate(false)}
           organism={"Member"}
