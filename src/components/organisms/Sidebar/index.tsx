@@ -16,10 +16,10 @@ export default function Sidebar(props: Props) {
   const location = useLocation();
 
   return (
-    <div className="md:bg-secondary  py-12 px-3 ">
-      <div className="flex justify-center  ">
-      <ImCross className="md:hidden"   size={20} onClick={props.toggleMenu} />
-      </div>
+    <div className="md:bg-secondary  py-9 px-3 ">
+    
+      <ImCross className="md:hidden ml-2 "   size={15} onClick={props.toggleMenu} />
+   
       <div className="h-12"></div>
       <NavigationMenu>
         <NavigationMenuList className="flex-col gap-4">
