@@ -16,7 +16,7 @@ export default function Sidebar(props: Props) {
   const location = useLocation();
 
   return (
-    <div className="bg-secondary  py-12 px-3 ">
+    <div className="md:bg-secondary  py-12 px-3 ">
       <div className="flex justify-center  ">
       <ImCross className="md:hidden"   size={20} onClick={props.toggleMenu} />
       </div>
@@ -30,8 +30,8 @@ export default function Sidebar(props: Props) {
               }}>
                 <NavigationMenuItem
                   className={
-                    "min-w-20 text-center p-2 rounded w-full " +
-                    (location.pathname === route.path ? "bg-indigo-950" : "")
+                    "min-w-20 text-center p-2 rounded-xl w-full " +
+                    (location.pathname === route.path ? "md:bg-indigo-950 bg-indigo-950/60" : "")
                   }
                 >
                   <div className="flex items-center justify-center mb-2">

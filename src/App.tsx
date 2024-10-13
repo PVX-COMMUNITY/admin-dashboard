@@ -89,18 +89,17 @@ function App() {
   function Layout() {
     return (
       <>
-        <div className="flex min-h-screen overflow-hidden">
-        <div
-          className={`${
-            isMenuOpen ? "translate-x-0" : "-translate-x-full"
-          } md:opacity-100 md:translate-x-0 bg-secondary transition-transform duration-500 ease-in-out fixed top-0 left-0 h-full z-10 md:relative`}
-          style={{ transition: 'transform 0.5s ease-in-out' }}
-        >
-          <Sidebar
-            routes={routes.filter((route) => route.showInSidebar)}
-            toggleMenu={toggleMenu}
-          />
-        </div>
+        <div className="flex min-h-screen bg-secondary overflow-hidden">
+          <div
+            className={`${
+              isMenuOpen ? "translate-x-0" : "-translate-x-full"
+            }  md:opacity-100 md:translate-x-0 bg-secondary/50 backdrop-blur-md transition-transform duration-500 ease-in-out fixed top-0 left-0 h-full z-10 md:relative`}
+          >
+            <Sidebar
+              routes={routes.filter((route) => route.showInSidebar)}
+              toggleMenu={toggleMenu}
+            />
+          </div>
           <div className="flex flex-col w-full">
             <Header toggleMenu={toggleMenu} />
             <div className="sm:p-8 p-4 bg-primary h-full">
