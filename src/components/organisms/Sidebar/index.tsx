@@ -5,9 +5,10 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Link, useLocation } from "react-router-dom";
-
+import { ImCross } from "react-icons/im";
 interface Props {
   routes: Routes[];
+  toggleMenu: () => void;
 }
 
 export default function Sidebar(props: Props) {
@@ -15,17 +16,22 @@ export default function Sidebar(props: Props) {
   const location = useLocation();
 
   return (
-    <div className="bg-secondary py-12 px-3">
+    <div className="md:bg-secondary  py-9 px-3 ">
+    
+      <ImCross className="md:hidden ml-2 "   size={15} onClick={props.toggleMenu} />
+   
       <div className="h-12"></div>
       <NavigationMenu>
         <NavigationMenuList className="flex-col gap-4">
           {routes.map((route) => {
             return (
-              <Link to={route.path} key={route.name} className="w-full">
+              <Link to={route.path} key={route.name} className="w-full" onClick={() => {
+                props.toggleMenu();
+              }}>
                 <NavigationMenuItem
                   className={
-                    "min-w-20 text-center p-2 rounded w-full " +
-                    (location.pathname === route.path ? "bg-indigo-950" : "")
+                    "min-w-20 text-center p-2 rounded-xl w-full " +
+                    (location.pathname === route.path ? "md:bg-indigo-950 bg-indigo-950/60" : "")
                   }
                 >
                   <div className="flex items-center justify-center mb-2">
