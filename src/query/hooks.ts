@@ -11,6 +11,7 @@ interface PaginationParams {
 export const usePagination = <T>({ queryKey, url }: PaginationParams) => {
   const [urlSearchParams, setUrlSearchParams] = useSearchParams();
   const page = urlSearchParams.get("page") || "1";
+  const search = urlSearchParams.get("search") || "";
 
   const goToPage = (page: number) => {
     setUrlSearchParams({ page: page.toString() });
@@ -24,12 +25,16 @@ export const usePagination = <T>({ queryKey, url }: PaginationParams) => {
     goToPage(parseInt(page) - 1);
   };
 
+  const prefix = (value: string) => `_${value}`;
+
   const query = useQuery({
-    queryKey: [queryKey, "_" + page],
-    queryFn: () =>
-      apiClient.get<PaginatedResponse<T>>(url, {
-        params: { page },
-      }),
+    queryKey: [queryKey, prefix(page), prefix(search)],
+    staleTime: 1000 * 60 * 5,
+    queryFn: () => {
+      return apiClient.get<PaginatedResponse<T>>(url, {
+        params: { page, search },
+      });
+    },
   });
 
   return {

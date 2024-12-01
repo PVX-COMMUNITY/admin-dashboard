@@ -6,4 +6,4 @@ export const blacklistFormSchema = z.object({
   admin: z.string().min(1).max(20),
 });
 
-
+export type BlacklistFormSchema = z.infer<typeof blacklistFormSchema>;

@@ -31,7 +31,7 @@ export default function Birthdays() {
           { name: "Link", mapper: (data) => data.link },
           {
             name: "Commands Disabled",
-            mapper: (data) => data.commands_disabled,
+            mapper: (data) => data.commands_disabled.join(", "),
           },
         ]}
         allowedActions={["edit", "delete"]}

@@ -32,3 +32,10 @@ export interface Group {
   link: string;
   commands_disabled: string[];
 }
+
+export interface Blacklist {
+  number: string;
+  uuid: string;
+  reason: string;
+  admin: string;
+}
