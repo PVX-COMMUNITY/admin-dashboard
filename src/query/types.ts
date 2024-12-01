@@ -25,3 +25,10 @@ export interface Birthday {
   place: string;
   name: string;
 }
+
+export interface Group {
+  name: string;
+  uuid: string;
+  link: string;
+  commands_disabled: string[];
+}
