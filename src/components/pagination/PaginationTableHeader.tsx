@@ -1,22 +1,27 @@
 import { Input } from "../ui/input";
 import { useSearchParams } from "react-router-dom";
 import PaginationTableCreateButton from "./PaginationTableCreateButton";
+import { useRef, useState } from "react";
 
 const PaginationTableHeader = () => {
   const [urlParams, setUrlParams] = useSearchParams();
-  const searchTerm = urlParams.get("search") || "";
-
-  const setSearchTerm = (value: string) => {
-    setUrlParams({ search: value });
-  };
+  const [term, setTerm] = useState(urlParams.get("search") || "");
+  const timer = useRef<NodeJS.Timeout>();
 
   return (
     <div className="flex w-full justify-between">
       <Input
         type="text"
         placeholder="Search..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={term}
+        onChange={(e) => {
+          const value = e.target.value;
+          setTerm(value);
+          if (timer.current) clearTimeout(timer.current);
+          timer.current = setTimeout(() => {
+            setUrlParams({ search: value });
+          }, 500);
+        }}
         className="text-white my-4 w-[60%]"
       />
       <PaginationTableCreateButton />
