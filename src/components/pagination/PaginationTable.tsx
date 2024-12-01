@@ -29,7 +29,7 @@ interface Props<T> {
   }[];
 }
 
-export function PaginationTable<T extends { id: string }>(props: Props<T>) {
+export function PaginationTable<T extends { uuid: string }>(props: Props<T>) {
   const { query } = usePaginationTable();
 
   const showPrevious = query.currentPage > 1;
@@ -96,7 +96,7 @@ export function PaginationTable<T extends { id: string }>(props: Props<T>) {
             {query.data.map((columnData, columnDataIndex) => (
               <TableRow key={columnDataIndex} className="border-border-color">
                 <TableCell className="font-medium">
-                  {columnDataIndex + 1}
+                  {query.currentPage * 10 - 9 + columnDataIndex}
                 </TableCell>
                 {props.columns.map((column) => {
                   return (
@@ -105,7 +105,7 @@ export function PaginationTable<T extends { id: string }>(props: Props<T>) {
                         console.log(columnData);
                       }}
                       className="font-medium"
-                      key={columnData.id + column.name + columnDataIndex}
+                      key={columnData.uuid + column.name + columnDataIndex}
                     >
                       {column.mapper(columnData as T)}
                     </TableCell>

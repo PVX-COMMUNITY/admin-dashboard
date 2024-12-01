@@ -11,8 +11,17 @@ export interface PaginatedMeta {
 }
 
 export interface Member {
-  id: string;
+  uuid: string;
   name: string;
   donation: number;
   number: string;
+}
+
+export interface Birthday {
+  uuid: string;
+  date: number;
+  month: number;
+  year: number;
+  place: string;
+  name: string;
 }

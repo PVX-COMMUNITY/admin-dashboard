@@ -9,7 +9,7 @@ interface Props<S extends FieldValues> extends PaginationTableProps<S> {
 }
 
 const PaginationTableProvider = <
-  T extends { id: string },
+  T extends { uuid: string },
   S extends FieldValues,
 >(
   props: Props<S>

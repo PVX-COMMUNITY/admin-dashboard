@@ -15,7 +15,7 @@ export interface PaginationTableProps<S extends FieldValues> {
 }
 
 interface PaginationTableContextType<
-  T extends { id: string },
+  T extends { uuid: string },
   S extends FieldValues,
 > extends PaginationTableProps<S> {
   type: string;
@@ -23,7 +23,7 @@ interface PaginationTableContextType<
 }
 
 const PaginationTableContext = createContext<
-  PaginationTableContextType<{ id: string }, FieldValues> | undefined
+  PaginationTableContextType<{ uuid: string }, FieldValues> | undefined
 >(undefined);
 
 export default PaginationTableContext;

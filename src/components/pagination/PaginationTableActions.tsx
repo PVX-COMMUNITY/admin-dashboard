@@ -5,13 +5,15 @@ import { DialogDelete } from "../molecules/DialogDelete";
 import PaginationTableEditButton from "./PaginationTableEditButton";
 import { usePaginationTable } from "@/context/pagination-table";
 
-interface Props<T extends { id: string }> {
+interface Props<T extends { uuid: string }> {
   showEdit: boolean;
   showDelete: boolean;
   item: T;
 }
 
-const PaginationTableActions = <T extends { id: string }>(props: Props<T>) => {
+const PaginationTableActions = <T extends { uuid: string }>(
+  props: Props<T>
+) => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const { organism } = usePaginationTable();
 

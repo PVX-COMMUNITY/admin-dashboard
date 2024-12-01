@@ -10,7 +10,7 @@ interface Props<T> {
   item: T;
 }
 
-const PaginationTableEditButton = <T extends { id: string }>(
+const PaginationTableEditButton = <T extends { uuid: string }>(
   props: Props<T>
 ) => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
