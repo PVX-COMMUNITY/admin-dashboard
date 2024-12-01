@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiClient } from "./client";
 import { PaginatedResponse } from "./types";
 import { useSearchParams } from "react-router-dom";
@@ -37,6 +37,40 @@ export const usePagination = <T>({ queryKey, url }: PaginationParams) => {
     },
   });
 
+  const createMutation = useMutation({
+    mutationFn: (data: T) => apiClient.post(url, data),
+    onSuccess: () => {
+      setUrlSearchParams({ page: "1" });
+      query.refetch();
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: (data: T) => apiClient.put(url, data),
+    onSuccess: () => {
+      query.refetch();
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (uuid: string) => apiClient.delete(`${url}/${uuid}`),
+    onSuccess: () => {
+      query.refetch();
+    },
+  });
+
+  const onCreate = (data: T) => {
+    return createMutation.mutateAsync(data);
+  };
+
+  const onUpdate = (data: T) => {
+    return updateMutation.mutateAsync(data);
+  };
+
+  const onDelete = (uuid: string) => {
+    return deleteMutation.mutateAsync(uuid);
+  };
+
   return {
     data: query.data?.data.data || [],
     totalPages: query.data?.data.meta.last_page || 1,
@@ -47,5 +81,11 @@ export const usePagination = <T>({ queryKey, url }: PaginationParams) => {
     goToPage,
     nextPage,
     previousPage,
+    isCreating: createMutation.isPending,
+    onCreate,
+    isUpdating: updateMutation.isPending,
+    onUpdate,
+    isDeleting: deleteMutation.isPending,
+    onDelete,
   };
 };

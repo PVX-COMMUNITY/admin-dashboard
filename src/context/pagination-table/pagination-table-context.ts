@@ -9,6 +9,7 @@ export interface PaginationTableProps<S extends FieldValues> {
   config: {
     url: string;
     queryKey: string;
+    deleteWarningMessage?: string;
   };
   organism: string;
   formSchema: z.ZodSchema<S>;

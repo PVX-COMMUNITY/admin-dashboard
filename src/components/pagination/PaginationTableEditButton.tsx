@@ -14,7 +14,7 @@ const PaginationTableEditButton = <T extends { uuid: string }>(
   props: Props<T>
 ) => {
   const [editPopupVisible, setEditPopupVisible] = useState(false);
-  const { formSchema, organism } = usePaginationTable();
+  const { formSchema, organism, query } = usePaginationTable();
 
   const editForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,7 +31,26 @@ const PaginationTableEditButton = <T extends { uuid: string }>(
         setOpen={() => setEditPopupVisible(false)}
         organism={organism}
         form={editForm}
-        onSubmit={() => {}}
+        onSubmit={(data) => {
+          query
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            .onUpdate(data)
+            .then(() => {
+              setEditPopupVisible(false);
+              editForm.reset();
+            })
+            .catch((error) => {
+              const errorMessage = error.response.data;
+              if (Array.isArray(errorMessage)) {
+                errorMessage.forEach((error) => {
+                  editForm.setError(error.source.pointer, {
+                    message: error.detail,
+                  });
+                });
+              }
+            });
+        }}
       />
     </React.Fragment>
   );

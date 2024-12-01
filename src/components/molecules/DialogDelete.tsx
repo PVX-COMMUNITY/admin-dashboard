@@ -13,10 +13,11 @@ interface Props {
   onDelete: () => void;
   onCancel: () => void;
   organism: string;
+  warningMessage?: string;
 }
 
 export function DialogDelete(props: Props) {
-  const { open, setOpen, organism, onDelete, onCancel } = props;
+  const { open, setOpen, organism, onDelete, onCancel, warningMessage } = props;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -26,6 +27,14 @@ export function DialogDelete(props: Props) {
           <DialogDescription>
             Are you sure you want to delete this {organism.toLowerCase()} ?
           </DialogDescription>
+          {!!warningMessage && (
+            <DialogDescription>
+              <p className="text-red-500">
+                <span className="font-bold">NOTE: </span>
+                {warningMessage}
+              </p>
+            </DialogDescription>
+          )}
           <div className="btn-container !flex !justify-end ">
             <Button
               className="mt-2 mr-2 !text-black !bg-gray-100"

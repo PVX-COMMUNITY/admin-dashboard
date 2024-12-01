@@ -15,7 +15,12 @@ const PaginationTableActions = <T extends { uuid: string }>(
   props: Props<T>
 ) => {
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-  const { organism } = usePaginationTable();
+  const { organism, query, config } = usePaginationTable();
+
+  const onDelete = async () => {
+    await query.onDelete(props.item.uuid);
+    setShowDeletePopup(false);
+  };
 
   return (
     <TableCell className="text-right flex justify-end">
@@ -28,8 +33,9 @@ const PaginationTableActions = <T extends { uuid: string }>(
       <DialogDelete
         open={showDeletePopup}
         setOpen={() => setShowDeletePopup(false)}
-        onDelete={() => {}}
+        onDelete={onDelete}
         organism={organism}
+        warningMessage={config.deleteWarningMessage}
         onCancel={() => setShowDeletePopup(false)}
       />
     </TableCell>

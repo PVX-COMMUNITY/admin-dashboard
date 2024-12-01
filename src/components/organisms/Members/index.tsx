@@ -12,15 +12,21 @@ export default function Members() {
   const form = useForm<MemberFormSchema>({
     resolver: zodResolver(memberFormSchema),
     defaultValues: {
-      username: "",
+      name: "",
       number: "",
       donation: 0,
+      memberjid: "",
     },
   });
 
   return (
     <PaginationTableProvider<Member, MemberFormSchema>
-      config={{ url: "/members", queryKey: "members" }}
+      config={{
+        url: "/members",
+        queryKey: "members",
+        deleteWarningMessage:
+          "Deleting this member will also deleted related birthdays, blacklist, counts and tags",
+      }}
       form={form}
       organism="Member"
       formSchema={memberFormSchema}
