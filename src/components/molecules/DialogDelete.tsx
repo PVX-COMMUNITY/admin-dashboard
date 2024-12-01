@@ -10,22 +10,21 @@ import {
 interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
-  deleteData: { id: string; organism: string; name?: string } | null;
   onDelete: () => void;
   onCancel: () => void;
+  organism: string;
 }
 
 export function DialogDelete(props: Props) {
-  const { open, setOpen, deleteData, onDelete, onCancel } = props;
+  const { open, setOpen, organism, onDelete, onCancel } = props;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete {deleteData?.organism}</DialogTitle>
+          <DialogTitle>Delete {organism}</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete {deleteData?.organism.toLowerCase()}{" "}
-            {deleteData?.name} ?
+            Are you sure you want to delete this {organism.toLowerCase()} ?
           </DialogDescription>
           <div className="btn-container !flex !justify-end ">
             <Button
